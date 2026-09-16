@@ -94,7 +94,7 @@ export default function Fallback() {
                     </tfoot>
                   </table>
                 </div>
-                <div className="tiny dim" style={{ marginTop: 14 }}>단위 mm / % · 출처 STEP37/results/validation_f1_results.json</div>
+                <div className="tiny dim" style={{ marginTop: 14 }}>단위 mm / %</div>
               </Sec>
 
               <Sec num="02" title="같은 결측 입력, 두 경로의 3D 결과">

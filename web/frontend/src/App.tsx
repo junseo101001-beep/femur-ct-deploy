@@ -15,11 +15,6 @@ function ScrollTop() {
   return null
 }
 
-const FOOT_META = [
-  ['MODEL', 'M1'], ['BASE', 'B0'], ['SSM', 'N=27'], ['LATENT', 'K=15'],
-  ['REGULARIZATION', 'γ=0.001'], ['VIEWS', '0° / 45° / 90°'], ['VALIDATION', 'N=6'],
-]
-
 export default function App() {
   return (
     <div className="app">
@@ -48,16 +43,6 @@ export default function App() {
         <Route path="/limitations" element={<Limitations />} />
         <Route path="*" element={<Home />} />
       </Routes>
-
-      <footer className="foot">
-        <div className="wrap foot-in">
-          <div className="foot-meta">
-            {FOOT_META.map(([k, v]) => (
-              <span key={k}>{k} <span style={{ color: 'var(--muted)', marginLeft: 6 }}>{v}</span></span>
-            ))}
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

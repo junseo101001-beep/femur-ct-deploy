@@ -199,7 +199,7 @@ export default function Reconstruction() {
                       </tbody>
                     </table>
                     <div className="tiny dim" style={{ marginTop: 12 }}>
-                      단위 mm · 출처 STEP37 / STEP26 · 화면 정합은 평가와 동일한 E0 pose 사용
+                      단위 mm · 화면 정합은 평가와 동일한 E0 pose 사용
                     </div>
                   </div>
                 </div>

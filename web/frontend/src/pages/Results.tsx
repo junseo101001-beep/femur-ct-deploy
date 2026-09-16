@@ -49,9 +49,6 @@ export default function Results() {
                       decimals={4}
                     />
                   </div>
-                  <p className="tiny dim" style={{ marginTop: 18 }}>
-                    막대는 절대 스케일이다. 차이를 크게 보이게 하려고 축을 잘라내지 않았다.
-                  </p>
                 </div>
               </div>
 
@@ -104,7 +101,7 @@ export default function Results() {
                   </table>
                 </div>
                 <div className="tiny dim" style={{ marginTop: 14 }}>
-                  단위 mm / % · 강조 행은 E0보다 나빠진 대상 · 출처 STEP26/validation/validation_results.json
+                  단위 mm / % · 강조 행은 E0보다 나빠진 대상
                 </div>
               </Sec>
 
