@@ -22,7 +22,6 @@ export default function App() {
 
       <nav className="nav">
         <div className="wrap nav-in">
-          <NavLink to="/" className="nav-brand">FEMUR / XR</NavLink>
           <div className="nav-links">
             {PAGES.map((p) => (
               <NavLink key={p.path} to={p.path} className={({ isActive }) => (isActive ? 'active' : '')}>
