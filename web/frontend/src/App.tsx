@@ -35,7 +35,6 @@ export default function App() {
               </NavLink>
             ))}
           </div>
-          <span className="nav-badge">M1 / LOCKED</span>
         </div>
       </nav>
 

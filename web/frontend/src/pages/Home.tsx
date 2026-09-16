@@ -43,8 +43,6 @@ export default function Home() {
 
                   <div className="row" style={{ marginTop: 34, gap: 8 }}>
                     <Link className="tbtn wide" to="/reconstruction">Reconstruction →</Link>
-                    <Link className="tbtn wide" to="/results">Results</Link>
-                    <Link className="tbtn wide" to="/limitations">Limitations</Link>
                   </div>
                 </div>
 
