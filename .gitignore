@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+node_modules/
+web/frontend/dist/
+web/frontend/tsconfig.tsbuildinfo
+web/frontend/_dev.log
+web/frontend/_preview.log
+web/backend/_runs/
+web/backend/_server.log
+web/backend/_tmp/
+.env
+.env.*
+!web/frontend/.env.example
+.DS_Store

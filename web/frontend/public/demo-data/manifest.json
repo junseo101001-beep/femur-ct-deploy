@@ -1,0 +1,720 @@
+{
+ "generated_at": "2026-09-16 22:08:12",
+ "cases": [
+  {
+   "id": "case01",
+   "pid": "Pat019",
+   "label": "Case 01",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat019_gt.stl",
+     "triangles": 19491,
+     "bytes": 974634,
+     "note": "expert CT segmentation STL, 19491/116944 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat019_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat019_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat019_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "noise50_m0": {
+     "file": "meshes/Pat019_noise50_m0.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "noise50_m1": {
+     "file": "meshes/Pat019_noise50_m1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat019_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.3112993240356445,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat019_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.9241549968719482,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat019_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.9008870124816895,
+     "angle_deg": 90
+    },
+    "noise50_000": {
+     "file": "drr/Pat019_noise50_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": -0.07047625631093979,
+     "raw_max": 1.329302191734314,
+     "angle_deg": 0
+    },
+    "noise50_045": {
+     "file": "drr/Pat019_noise50_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": -0.07470761239528656,
+     "raw_max": 1.9185073375701904,
+     "angle_deg": 45
+    },
+    "noise50_090": {
+     "file": "drr/Pat019_noise50_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": -0.07310105860233307,
+     "raw_max": 1.9139409065246582,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.461,
+     "p95": 3.746,
+     "cov5": 99.31,
+     "vol_err_pct": -4.15,
+     "alpha_rmse_sigma": 0.7382014663044851,
+     "rot_deg": 0.2317,
+     "trans_mm": 0.1231
+    },
+    "missing_main": {
+     "sym": 2.219,
+     "p95": 4.874,
+     "cov5": 95.87,
+     "vol_err_pct": -7.71,
+     "alpha_rmse_sigma": 1.0632139466331136
+    },
+    "fallback_f1": {
+     "sym": 1.962,
+     "p95": 5.239,
+     "cov5": 93.5,
+     "vol_err_pct": -5.68,
+     "alpha_rmse_sigma": 1.2304499769952888
+    },
+    "baseline_e0": {
+     "sym": 1.525,
+     "p95": 3.918,
+     "cov5": 99.28,
+     "vol_err_pct": 2.46,
+     "alpha_rmse_sigma": 0.7594563708168864
+    },
+    "delta_f1_minus_control": -0.2569999999999999,
+    "delta_b0_minus_e0": -0.06399999999999983
+   },
+   "display_transform": {
+    "center_mm": [
+     2.22471031985404,
+     7.544750012999117,
+     -2.2606970401294593
+    ],
+    "scale_mm": 182.0802400951455
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat019 (평가와 동일)"
+  },
+  {
+   "id": "case02",
+   "pid": "Pat031",
+   "label": "Case 02",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat031_gt.stl",
+     "triangles": 19736,
+     "bytes": 986884,
+     "note": "expert CT segmentation STL, 19736/118412 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat031_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat031_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat031_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat031_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.549681544303894,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat031_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.2832107543945312,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat031_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.0813941955566406,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.516,
+     "p95": 3.24,
+     "cov5": 99.78,
+     "vol_err_pct": 1.87,
+     "alpha_rmse_sigma": 0.4480444174653281,
+     "rot_deg": 0.3546,
+     "trans_mm": 0.0635
+    },
+    "missing_main": {
+     "sym": 1.623,
+     "p95": 3.378,
+     "cov5": 99.68,
+     "vol_err_pct": 1.63,
+     "alpha_rmse_sigma": 0.5181671677165259
+    },
+    "fallback_f1": {
+     "sym": 1.602,
+     "p95": 3.464,
+     "cov5": 99.74,
+     "vol_err_pct": 1.83,
+     "alpha_rmse_sigma": 0.5313578737696967
+    },
+    "baseline_e0": {
+     "sym": 1.523,
+     "p95": 3.18,
+     "cov5": 99.59,
+     "vol_err_pct": 8.21,
+     "alpha_rmse_sigma": 0.382425645225433
+    },
+    "delta_f1_minus_control": -0.020999999999999908,
+    "delta_b0_minus_e0": -0.006999999999999895
+   },
+   "display_transform": {
+    "center_mm": [
+     1.9234896620118747,
+     12.298769216243713,
+     -2.341668126843256
+    ],
+    "scale_mm": 214.86221105472634
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat031 (평가와 동일)"
+  },
+  {
+   "id": "case03",
+   "pid": "Pat042",
+   "label": "Case 03",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat042_gt.stl",
+     "triangles": 18859,
+     "bytes": 943034,
+     "note": "expert CT segmentation STL, 18859/113152 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat042_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat042_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat042_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat042_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.432562232017517,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat042_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.9751592874526978,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat042_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.003263473510742,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.212,
+     "p95": 3.888,
+     "cov5": 97.12,
+     "vol_err_pct": -3.96,
+     "alpha_rmse_sigma": 0.4253315661302873,
+     "rot_deg": 0.2819,
+     "trans_mm": 0.166
+    },
+    "missing_main": {
+     "sym": 1.69,
+     "p95": 4.229,
+     "cov5": 96.95,
+     "vol_err_pct": -4.65,
+     "alpha_rmse_sigma": 0.787263465625188
+    },
+    "fallback_f1": {
+     "sym": 1.454,
+     "p95": 3.977,
+     "cov5": 97.27,
+     "vol_err_pct": -4.64,
+     "alpha_rmse_sigma": 0.5635738972064299
+    },
+    "baseline_e0": {
+     "sym": 1.318,
+     "p95": 4.522,
+     "cov5": 96.0,
+     "vol_err_pct": -0.96,
+     "alpha_rmse_sigma": 0.6329637421272697
+    },
+    "delta_f1_minus_control": -0.236,
+    "delta_b0_minus_e0": -0.1060000000000001
+   },
+   "display_transform": {
+    "center_mm": [
+     1.2544941651749433,
+     6.415474659298809,
+     -1.9319010040821745
+    ],
+    "scale_mm": 185.5110937293149
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat042 (평가와 동일)"
+  },
+  {
+   "id": "case04",
+   "pid": "Pat060",
+   "label": "Case 04",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat060_gt.stl",
+     "triangles": 18015,
+     "bytes": 900834,
+     "note": "expert CT segmentation STL, 18015/108088 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat060_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat060_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat060_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat060_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.4709516763687134,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat060_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.255986213684082,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat060_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.10129714012146,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.317,
+     "p95": 2.977,
+     "cov5": 99.7,
+     "vol_err_pct": -3.06,
+     "alpha_rmse_sigma": 0.34286594331445314,
+     "rot_deg": 0.2593,
+     "trans_mm": 0.1305
+    },
+    "missing_main": {
+     "sym": 1.519,
+     "p95": 3.214,
+     "cov5": 99.74,
+     "vol_err_pct": -3.46,
+     "alpha_rmse_sigma": 0.3474605592429276
+    },
+    "fallback_f1": {
+     "sym": 1.358,
+     "p95": 3.019,
+     "cov5": 99.75,
+     "vol_err_pct": -2.37,
+     "alpha_rmse_sigma": 0.3914142910428894
+    },
+    "baseline_e0": {
+     "sym": 1.438,
+     "p95": 3.557,
+     "cov5": 99.07,
+     "vol_err_pct": 0.34,
+     "alpha_rmse_sigma": 0.5192331050106878
+    },
+    "delta_f1_minus_control": -0.1609999999999998,
+    "delta_b0_minus_e0": -0.121
+   },
+   "display_transform": {
+    "center_mm": [
+     2.7391296223680115,
+     11.970551692656983,
+     -0.9445426540890729
+    ],
+    "scale_mm": 214.4032530989789
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat060 (평가와 동일)"
+  },
+  {
+   "id": "case05",
+   "pid": "Pat080",
+   "label": "Case 05",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat080_gt.stl",
+     "triangles": 24058,
+     "bytes": 1202984,
+     "note": "expert CT segmentation STL, 24058/144348 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat080_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat080_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat080_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat080_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.4444270133972168,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat080_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.0934581756591797,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat080_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.9444351196289062,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.675,
+     "p95": 4.387,
+     "cov5": 96.74,
+     "vol_err_pct": 1.32,
+     "alpha_rmse_sigma": 0.5371231293257283,
+     "rot_deg": 0.0744,
+     "trans_mm": 0.3327
+    },
+    "missing_main": {
+     "sym": 2.262,
+     "p95": 6.202,
+     "cov5": 92.74,
+     "vol_err_pct": 5.4,
+     "alpha_rmse_sigma": 1.34389813630672
+    },
+    "fallback_f1": {
+     "sym": 2.113,
+     "p95": 7.395,
+     "cov5": 92.91,
+     "vol_err_pct": 9.46,
+     "alpha_rmse_sigma": 1.4707313122404562
+    },
+    "baseline_e0": {
+     "sym": 1.781,
+     "p95": 6.194,
+     "cov5": 92.76,
+     "vol_err_pct": 12.75,
+     "alpha_rmse_sigma": 0.5609043453586832
+    },
+    "delta_f1_minus_control": -0.14900000000000002,
+    "delta_b0_minus_e0": -0.10599999999999987
+   },
+   "display_transform": {
+    "center_mm": [
+     1.3090448612637005,
+     5.590833759407417,
+     -3.7137856121583894
+    ],
+    "scale_mm": 208.47774877381784
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat080 (평가와 동일)"
+  },
+  {
+   "id": "case06",
+   "pid": "Pat095",
+   "label": "Case 06",
+   "meshes": {
+    "gt": {
+     "file": "meshes/Pat095_gt.stl",
+     "triangles": 26142,
+     "bytes": 1307184,
+     "note": "expert CT segmentation STL, 26142/156848 triangles subsampled for web"
+    },
+    "recon_clean": {
+     "file": "meshes/Pat095_recon_clean.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_missing_main": {
+     "file": "meshes/Pat095_recon_missing_main.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    },
+    "recon_fallback_f1": {
+     "file": "meshes/Pat095_recon_fallback_f1.stl",
+     "triangles": 9880,
+     "bytes": 494084
+    }
+   },
+   "drr": {
+    "000": {
+     "file": "drr/Pat095_000.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 1.6241707801818848,
+     "angle_deg": 0
+    },
+    "045": {
+     "file": "drr/Pat095_045.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.3380374908447266,
+     "angle_deg": 45
+    },
+    "090": {
+     "file": "drr/Pat095_090.png",
+     "shape": [
+      600,
+      450
+     ],
+     "raw_min": 0.0,
+     "raw_max": 2.1764791011810303,
+     "angle_deg": 90
+    }
+   },
+   "metrics": {
+    "clean_m1": {
+     "sym": 1.47,
+     "p95": 3.591,
+     "cov5": 99.32,
+     "vol_err_pct": -0.99,
+     "alpha_rmse_sigma": 0.3672592895829155,
+     "rot_deg": 0.4388,
+     "trans_mm": 0.1649
+    },
+    "missing_main": {
+     "sym": 1.676,
+     "p95": 3.98,
+     "cov5": 99.18,
+     "vol_err_pct": -3.52,
+     "alpha_rmse_sigma": 0.7169746825133395
+    },
+    "fallback_f1": {
+     "sym": 1.992,
+     "p95": 4.733,
+     "cov5": 96.25,
+     "vol_err_pct": -1.23,
+     "alpha_rmse_sigma": 0.9763139685847796
+    },
+    "baseline_e0": {
+     "sym": 1.406,
+     "p95": 3.844,
+     "cov5": 98.56,
+     "vol_err_pct": 1.91,
+     "alpha_rmse_sigma": 0.4329518001031509
+    },
+    "delta_f1_minus_control": 0.31600000000000006,
+    "delta_b0_minus_e0": 0.06400000000000006
+   },
+   "display_transform": {
+    "center_mm": [
+     1.947430518491359,
+     12.893900166707283,
+     -0.7810215583292575
+    ],
+    "scale_mm": 211.8860393999445
+   },
+   "pose_source": "STEP12 _ck.json E0|Pat095 (평가와 동일)"
+  }
+ ],
+ "noise_demo": {
+  "case_pid": "Pat019",
+  "snr": 50,
+  "sigma": 0.0156171,
+  "m0_input": "STEP34/results/drr/snr050_r0/Pat019/b0_input.npz",
+  "m1_input": "STEP35/results/inputs/M1/snr050_r0/Pat019/b0_input.npz",
+  "meshes": {
+   "noise50_m0": {
+    "file": "meshes/Pat019_noise50_m0.stl",
+    "triangles": 9880,
+    "bytes": 494084
+   },
+   "noise50_m1": {
+    "file": "meshes/Pat019_noise50_m1.stl",
+    "triangles": 9880,
+    "bytes": 494084
+   }
+  },
+  "drr": {
+   "000": {
+    "file": "drr/Pat019_noise50_000.png",
+    "shape": [
+     600,
+     450
+    ],
+    "raw_min": -0.07047625631093979,
+    "raw_max": 1.329302191734314,
+    "angle_deg": 0
+   },
+   "045": {
+    "file": "drr/Pat019_noise50_045.png",
+    "shape": [
+     600,
+     450
+    ],
+    "raw_min": -0.07470761239528656,
+    "raw_max": 1.9185073375701904,
+    "angle_deg": 45
+   },
+   "090": {
+    "file": "drr/Pat019_noise50_090.png",
+    "shape": [
+     600,
+     450
+    ],
+    "raw_min": -0.07310105860233307,
+    "raw_max": 1.9139409065246582,
+    "angle_deg": 90
+   }
+  },
+  "note": "STEP34(M0)·STEP35(M1) 에 저장된 입력에 잠금 B0 를 그대로 적용해 메시만 생성"
+ },
+ "mesh_convention": {
+  "units": "display-normalized (GT bbox center, max radius = 1)",
+  "alignment": "recon = pose_apply(Xn_hat, E0 pose); GT = imaging_frame(STL); 두 메시 모두 동일 display 변환 → 평가 좌표계와 동일 정합",
+  "recon_topology": "SSM 대응 4911 vertices / 9880 triangles"
+ }
+}
