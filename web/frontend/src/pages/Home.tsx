@@ -51,7 +51,7 @@ export default function Home() {
                     className="viewer-bare"
                     height="100%"
                     autoRotate
-                    background={null}
+                    background="#1f2a44"
                     layers={[{ url: `${DEMO_BASE}/${c0.meshes.recon_clean.file}`, color: BONE, opacity: 1, visible: true }]}
                   >
                     <div className="viewer-note-r">

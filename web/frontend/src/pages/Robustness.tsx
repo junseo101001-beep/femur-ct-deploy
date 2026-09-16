@@ -71,7 +71,7 @@ export default function Robustness() {
                         <div key={x.key}>
                           <FemurViewer
                             height={380}
-                            background="#12161a"
+                            background="#1f2a44"
                             layers={[
                               { url: `${DEMO_BASE}/${nd.meshes[x.key].file}`, color: x.color, opacity: showGt ? 0.5 : 1, visible: true },
                               { url: `${DEMO_BASE}/${gtFile}`, color: GT_COLOR, opacity: 0.45, visible: showGt, smooth: false },

@@ -117,7 +117,7 @@ export default function Fallback() {
                       <FemurViewer
                         key={c.id + x.key}
                         height={400}
-                        background="#12161a"
+                        background="#1f2a44"
                         layers={[
                           { url: `${DEMO_BASE}/${c.meshes[x.key].file}`, color: x.color, opacity: showGt ? 0.5 : 1, visible: true },
                           { url: `${DEMO_BASE}/${c.meshes.gt.file}`, color: GT_COLOR, opacity: 0.45, visible: showGt, smooth: false },

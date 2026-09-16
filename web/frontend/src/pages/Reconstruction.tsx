@@ -132,7 +132,7 @@ export default function Reconstruction() {
                     autoRotate={vs.autoRotate}
                     preset={vs.preset}
                     resetToken={vs.resetToken}
-                    background="#12161a"
+                    background="#1f2a44"
                   >
                     <div className="viewer-note">
                       <div className="mono tiny dim">

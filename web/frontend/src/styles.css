@@ -9,20 +9,20 @@
 @import "@fontsource/noto-sans-kr/500.css";
 
 :root {
-  /* neutral, near-achromatic laboratory palette */
-  --bg: #0e1113;
-  --panel: #15191c;
-  --panel-2: #12161a;
-  --line: #2a2f33;
-  --line-soft: #1e2327;
-  --text: #e6e8ea;
-  --muted: #9aa4ab;
-  --dim: #858f96;
+  /* warm paper + ink navy laboratory palette */
+  --bg: #f2eee3;
+  --panel: #ece7d8;
+  --panel-2: #e4ddcb;
+  --line: #d3ccb8;
+  --line-soft: #e0d9c6;
+  --text: #1c2530;
+  --muted: #5c6670;
+  --dim: #7e857c;
 
-  --accent: #b7e4c7;          /* muted green — used sparingly */
-  --accent-dim: rgba(183, 228, 199, 0.1);
-  --warn: #d9a441;            /* muted amber */
-  --bad: #c87a72;             /* muted red */
+  --accent: #1e6f5c;          /* deep teal — used sparingly */
+  --accent-dim: rgba(30, 111, 92, 0.1);
+  --warn: #9a6a12;            /* dark amber */
+  --bad: #b0443a;             /* muted red */
 
   --font-sans: "IBM Plex Sans", "Noto Sans KR", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -49,7 +49,7 @@ body {
 
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; color: inherit; }
-::selection { background: rgba(183, 228, 199, 0.22); }
+::selection { background: rgba(30, 111, 92, 0.18); }
 
 /* ------------------------------------------------------------------ layout */
 .app { min-height: 100%; display: flex; flex-direction: column; }
@@ -156,7 +156,7 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; padding: 6px 11px;
   border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: .14s;
 }
-.tbtn:hover { color: var(--text); border-color: #3a4046; }
+.tbtn:hover { color: var(--text); border-color: #b4ab93; }
 .tbtn.on { color: var(--bg); background: var(--accent); border-color: var(--accent); }
 .tbtn:disabled { opacity: .4; cursor: not-allowed; }
 .tbtn.wide { padding: 7px 14px; }
