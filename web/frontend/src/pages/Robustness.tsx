@@ -29,7 +29,7 @@ export default function Robustness() {
               {/* ------------------------------------------------ 01 noise */}
               <Sec
                 num="01"
-                title="Gaussian noise (가우시안 잡음)"
+                title="Gaussian noise (가우스 잡음)"
                 note="SNR이 낮아지면 기존 전처리(M0)는 윤곽 추출이 무너져 복원이 붕괴한다. M1은 배경 잡음 크기를 재서 문턱값을 올리는 것만으로 이를 막는다."
                 right={<span className="mono tiny acc">4.145 → 1.469 mm @ SNR 50</span>}
               >
