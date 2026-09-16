@@ -60,12 +60,12 @@ function MainPipeline({ c, idx }: { c: CaseData; idx: number }) {
           <div className="pin-note">{caseLabel(c.pid, idx)} · CT 기반 DRR</div>
         </div>
 
-        <Step n="02" title="ADAPTIVE THRESHOLD" desc="영상 네 귀퉁이 배경의 median·MAD로 잡음 크기를 추정해 임계값을 자동으로 정합니다.">
+        <Step n="02" title="ADAPTIVE THRESHOLD" desc="영상 네 귀퉁이 배경의 median·MAD로 잡음 크기를 추정해 임계값을 자동으로 정한다.">
           <Img src={s?.mask} alt="threshold mask" />
           <div className="pstep-cap">T = {s ? s.T.toFixed(4) : '—'}</div>
         </Step>
 
-        <Step n="03" title="CONTOUR + SDF" desc="closing → 구멍 채우기 → 최대 영역으로 윤곽선을 얻고, 부호 있는 거리장(SDF)으로 표현합니다.">
+        <Step n="03" title="CONTOUR + SDF" desc="closing → 구멍 채우기 → 최대 영역으로 윤곽선을 얻고, 부호 있는 거리장(SDF)으로 표현한다.">
           <div className="pair">
             <Img src={s?.contour} alt="contour" />
             <Img src={s?.sdf} alt="signed distance field" />
@@ -73,7 +73,7 @@ function MainPipeline({ c, idx }: { c: CaseData; idx: number }) {
           <div className="pstep-cap">inside − / outside +</div>
         </Step>
 
-        <Step n="04" title="LANDMARK-WEIGHTED INFERENCE" desc="SDF 3블록과 landmark 블록을 각각 정규화해 합친 뒤 정규화 최소제곱으로 형상 계수를 추정합니다.">
+        <Step n="04" title="LANDMARK-WEIGHTED INFERENCE" desc="SDF 3블록과 landmark 블록을 각각 정규화해 합친 뒤 정규화 최소제곱으로 형상 계수를 추정한다.">
           <div className="pair">
             <Img src={s?.contour} alt="contour" dark={false} />
             <Img src={s?.samples} alt="sample points" dark={false} />
@@ -81,20 +81,20 @@ function MainPipeline({ c, idx }: { c: CaseData; idx: number }) {
           <div className="pstep-cap">SDF ×3 + landmark · schematic</div>
         </Step>
 
-        <Step n="05" title="SSM" desc="N=27 CT로 만든 평균 형상과 주성분. 추정한 K개 계수만큼 평균 형상을 변형합니다.">
+        <Step n="05" title="SSM" desc="N=27 CT로 만든 평균 형상과 주성분. 추정한 K개 계수만큼 평균 형상을 변형한다.">
           <FemurViewer className="pview" height={170} autoRotate background={null} shadow={false} fov={30}
             layers={[{ url: meshUrl(c, 'recon_clean'), color: '#5f9585', opacity: 0.45, visible: true, wireframe: true }]} />
           <div className="pstep-cap">4,911 vertices · wireframe</div>
         </Step>
 
-        <Step n="06" title="3D FEMUR" desc="최종적으로 개인별 3D 대퇴골 형상을 복원합니다.">
+        <Step n="06" title="3D FEMUR" desc="최종적으로 개인별 3D 대퇴골 형상을 복원한다.">
           <FemurViewer className="pview" height={170} autoRotate background={null} shadow={false} fov={30}
             layers={[{ url: meshUrl(c, 'recon_clean'), color: BONE, opacity: 1, visible: true }]} />
           <div className="pstep-cap">Sym {fmt(c.metrics.clean_m1.sym, 3)} mm</div>
         </Step>
       </div>
       <div className="ap-foot">
-        02–04 이미지는 공개된 DRR PNG(8bit)에서 브라우저가 같은 규칙으로 다시 계산한 설명용 시각화입니다. 04의 점은 윤곽 표본 위치를 나타내는 도식이며 실제 landmark 좌표가 아닙니다.
+        02–04 이미지는 공개된 DRR PNG(8bit)에서 브라우저가 같은 규칙으로 다시 계산한 설명용 시각화다. 04의 점은 윤곽 표본 위치를 나타내는 도식이며 실제 landmark 좌표가 아니다.
       </div>
     </>
   )
@@ -195,8 +195,8 @@ export default function Algorithm() {
                   <h1 className="ahead-t">Algorithm</h1>
                   <div className="ahead-s">From multi-view X-ray to 3D femoral shape</div>
                   <p className="ahead-p">
-                    다중 뷰 X-ray(DRR) 영상을 기반으로 대퇴골의 3D 형태를 복원하는 전체 파이프라인과 모델 구성을 소개합니다.
-                    신경망이 형상을 직접 출력하는 방식이 아니라, 통계 형상 모델(SSM)의 계수를 2D 관측으로부터 최소제곱으로 추정합니다.
+                    다중 뷰 X-ray(DRR) 영상을 기반으로 대퇴골의 3D 형태를 복원하는 전체 파이프라인과 모델 구성을 정리한다.
+                    신경망이 형상을 직접 출력하는 방식이 아니라, 통계 형상 모델(SSM)의 계수를 2D 관측으로부터 최소제곱으로 추정한다.
                   </p>
                 </div>
               </div>
@@ -234,12 +234,12 @@ export default function Algorithm() {
 
               <div className="agrid-bot">
                 <Panel num="02" title="FALLBACK PATH" sub="대체 경로">
-                  <p className="ap-lead">GT + kneeCenter가 동시에 관측되지 않은 입력에서만 이 경로로 라우팅합니다.</p>
+                  <p className="ap-lead">GT + kneeCenter가 동시에 관측되지 않은 입력에서만 이 경로로 라우팅한다.</p>
                   <FallbackDiagram c={c} research={research} />
                   <div className="ap-warn">
                     <span className="ap-warn-i">!</span>
                     <span>
-                      F1은 GT + kneeCenter가 누락된 경우에만 사용하는 제한적 대체 모델이며, 다른 missing 조합에 대해서는 검증되지 않았습니다.
+                      F1은 GT + kneeCenter가 누락된 경우에만 사용하는 제한적 대체 모델이며, 다른 missing 조합에 대해서는 검증되지 않았다.
                       평균 {fmt(research.missing.control.sym.mean, 4)} → {fmt(research.missing.f1.sym.mean, 4)} mm,
                       p95 {fmt(research.missing.control.p95.mean, 3)} → {fmt(research.missing.f1.p95.mean, 3)} mm (n=6).
                     </span>
@@ -266,7 +266,6 @@ export default function Algorithm() {
                     </div>
                   ))}
                 </div>
-                <div className="tiny dim" style={{ marginTop: 6 }}>source of truth: {research.source_of_truth.join(' · ')}</div>
               </section>
             </div>
           )
