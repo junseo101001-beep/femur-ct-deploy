@@ -1,0 +1,11 @@
+# Cloudflare Workers Static Assets — frontend only (worker script 없음).
+# React SPA: 에셋에 없는 경로는 공식 SPA 모드가 /index.html로 fallback.
+name = "femur-ct-web"
+compatibility_date = "2026-09-16"
+
+[assets]
+directory = "./dist"
+not_found_handling = "single-page-application"
+
+[build]
+command = "npm run build"
