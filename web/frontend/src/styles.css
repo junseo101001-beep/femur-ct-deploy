@@ -297,7 +297,7 @@ table.t tfoot td { border-top: 1px solid var(--line); border-bottom: 0; }
 .pin-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .pin-row figure { margin: 0; }
 .pin-row figcaption { font-family: var(--font-mono); font-size: 11.5px; text-align: center; margin-top: 8px; color: var(--muted); }
-.pin-note { font-family: var(--font-mono); font-size: 10.5px; color: var(--dim); margin-top: 10px; }
+.pin-note { font-family: var(--font-sans); font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 10px; }
 
 .pstep { position: relative; border: 1px solid var(--line); background: #fbf9f4; padding: 14px 12px 12px; display: flex; flex-direction: column; min-width: 0; }
 .pstep::before { content: "→"; position: absolute; left: -17px; top: 50%; font-size: 12px; color: var(--dim); transform: translateY(-50%); }
@@ -347,8 +347,8 @@ table.t tfoot td { border-top: 1px solid var(--line); border-bottom: 0; }
 .cmp-vis { display: grid; grid-template-columns: 0.8fr 1fr; gap: 10px; align-items: center; }
 .cmp-q { margin: 0; background: #ebe7dd; padding: 20px 20px 18px; display: flex; flex-direction: column; }
 .cmp-qm { font-family: Georgia, serif; font-size: 34px; line-height: 1; color: var(--muted); }
-.cmp-q p { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.5; color: #2b3a44; margin: 10px 0 18px; }
-.cmp-q footer { margin-top: auto; border-top: 1px solid var(--line); width: 44px; padding-top: 12px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--dim); white-space: nowrap; }
+.cmp-q p { font-family: var(--font-sans); font-size: 14px; font-weight: 500; line-height: 1.65; color: var(--text); margin: 10px 0 18px; word-break: keep-all; }
+.cmp-q footer { margin-top: auto; border-top: 1px solid var(--line); width: 44px; padding-top: 12px; font-family: var(--font-sans); font-size: 11.5px; font-weight: 500; color: var(--muted); white-space: nowrap; }
 
 @media (max-width: 1400px) {
   .agrid-top, .agrid-bot { grid-template-columns: 1fr; }

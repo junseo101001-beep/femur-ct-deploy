@@ -172,8 +172,8 @@ function Compare({ c }: { c: CaseData }) {
       </div>
       <blockquote className="cmp-q">
         <span className="cmp-qm">“</span>
-        <p>F1 reduces average error in the tested missing-landmark condition, but tail error remains elevated.</p>
-        <footer>FEMUR RESEARCH<br />ALGORITHM</footer>
+        <p>F1은 검증한 landmark 누락 조건에서 평균 오차를 줄이지만, 상위 꼬리 오차(p95)는 여전히 높게 남는다.</p>
+        <footer>대퇴골 복원 연구<br />알고리즘</footer>
       </blockquote>
     </div>
   )
