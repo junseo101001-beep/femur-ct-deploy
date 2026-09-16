@@ -53,14 +53,10 @@ export default function Limitations() {
                   </table>
                 </div>
                 <div>
-                  <Lab>Scope statement</Lab>
+                  <Lab>Evaluation condition</Lab>
                   <p className="muted small" style={{ marginTop: 14, maxWidth: 560 }}>
-                    본 시스템은 연구 목적의 시제품입니다. 의료기기가 아니며 진단·치료·수술 계획 등 어떤 임상 의사결정에도
-                    사용할 수 없습니다. 모든 수치는 CT에서 생성한 합성 X-ray(DRR) 환경에서 6명을 대상으로 측정된 것입니다.
+                    모든 수치는 CT에서 생성한 합성 X-ray(DRR) 환경에서 6명을 대상으로 측정된 것입니다.
                   </p>
-                  <div className="mono" style={{ marginTop: 26, fontSize: 13, letterSpacing: '0.1em', color: 'var(--warn)' }}>
-                    RESEARCH PROTOTYPE<br />NOT FOR CLINICAL DIAGNOSIS
-                  </div>
                 </div>
               </div>
             </div>

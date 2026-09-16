@@ -57,7 +57,6 @@ export default function App() {
               <span key={k}>{k} <span style={{ color: 'var(--muted)', marginLeft: 6 }}>{v}</span></span>
             ))}
           </div>
-          <div>RESEARCH PROTOTYPE · NOT FOR CLINICAL DIAGNOSIS</div>
         </div>
       </footer>
     </div>

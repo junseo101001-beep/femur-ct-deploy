@@ -16,7 +16,7 @@ export default function Home() {
             <div className="wrap">
               <div className="hero">
                 <div>
-                  <Lab>Research prototype / 2026</Lab>
+                  <Lab>Femur 3D reconstruction / 2026</Lab>
                   <h1 style={{ marginTop: 18 }}>
                     3D Femur
                     <br />
@@ -86,7 +86,6 @@ export default function Home() {
                   <p className="muted small" style={{ marginTop: 12 }}>
                     입력은 모두 CT에서 생성한 DRR이며, 실제 X-ray 촬영 영상으로는 검증되지 않았습니다.
                     독립 검증 대상은 6명이고, 2D 기준점은 영상에서 검출한 값이 아니라 3D 좌표의 투영값입니다.
-                    본 시스템은 연구용 시제품이며 의료 진단에 사용할 수 없습니다.
                   </p>
                 </div>
                 <div>
