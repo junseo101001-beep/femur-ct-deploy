@@ -29,7 +29,7 @@ export default function Robustness() {
               {/* ------------------------------------------------ 01 noise */}
               <Sec
                 num="01"
-                title="Gaussian noise"
+                title="Gaussian noise (가우시안 잡음)"
                 note="SNR이 낮아지면 기존 전처리(M0)는 윤곽 추출이 무너져 복원이 붕괴한다. M1은 배경 잡음 크기를 재서 문턱값을 올리는 것만으로 이를 막는다."
                 right={<span className="mono tiny acc">4.145 → 1.469 mm @ SNR 50</span>}
               >
@@ -93,7 +93,7 @@ export default function Robustness() {
               </Sec>
 
               {/* ------------------------------------------------ 02 blur */}
-              <Sec num="02" title="Blur" note="M1의 문턱값은 잡음에만 반응하므로 흐림 조건에서는 입력이 M0와 완전히 같다. 열화가 그대로 남아 있다.">
+              <Sec num="02" title="Blur (흐림)" note="M1의 문턱값은 잡음에만 반응하므로 흐림 조건에서는 입력이 M0와 완전히 같다. 열화가 그대로 남아 있다.">
                 <Bars
                   rows={[
                     { label: 'clean', values: { v: clean.sym } },
@@ -106,7 +106,7 @@ export default function Robustness() {
               </Sec>
 
               {/* ------------------------------------------------ 03 contrast */}
-              <Sec num="03" title="Contrast" note="영상 대비를 0.5배에서 1.5배까지 바꿔도 성능이 사실상 변하지 않는다.">
+              <Sec num="03" title="Contrast (영상 대비)" note="영상 대비를 0.5배에서 1.5배까지 바꿔도 성능이 사실상 변하지 않는다.">
                 <Bars
                   rows={[
                     { label: 'clean', values: { v: clean.sym } },
@@ -122,7 +122,7 @@ export default function Robustness() {
               {/* ------------------------------------------------ 04 angle */}
               <Sec
                 num="04"
-                title="Projection angle error"
+                title="Projection angle error (투영 각도 오차)"
                 note="세 방향의 실제 촬영각이 가정한 각도와 다를 때다. ±1°까지는 비교적 안정적이고, ±2°부터 저하가 시작되며 ±5°에서는 뚜렷하게 열화된다."
                 right={<span className="mono tiny warn">limitation</span>}
               >
@@ -144,7 +144,7 @@ export default function Robustness() {
               {/* ------------------------------------------------ 05 missing */}
               <Sec
                 num="05"
-                title="Missing landmark"
+                title="Missing landmark (기준점 누락)"
                 note="GT와 kneeCenter가 동시에 관측되지 않는 경우다. 이 조건에서만 F1 fallback으로 라우팅한다."
                 right={<Link className="tbtn" to="/fallback">Fallback detail →</Link>}
               >
