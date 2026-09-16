@@ -10,7 +10,7 @@ interface RunState { status: 'idle' | 'running' | 'done'; stage: string; source:
 interface HealthInfo { live_inference: boolean; model_md5?: string; mode?: string }
 
 const MODES: { k: Mode; label: string; mesh: string; color: string; desc: string }[] = [
-  { k: 'clean', label: t('M1 / normal'), mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1이 사용됩니다.' },
+  { k: 'clean', label: t('M1 / normal'), mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1을 사용한다.' },
   { k: 'missing', label: t('Main / GT+KC missing'), mesh: 'recon_missing_main', color: BONE_ALT, desc: 'GT와 kneeCenter가 동시에 없는 입력을 Main 경로가 그대로 처리한 경우 (fallback 미적용).' },
   { k: 'fallback', label: t('F1 / GT+KC missing'), mesh: 'recon_fallback_f1', color: '#c2b7a4', desc: '같은 결측 입력을 F1 fallback으로 복원한 경우.' },
 ]
@@ -76,7 +76,7 @@ export default function Reconstruction() {
               <PageHead
                 label="Reconstruction / multi-view input"
                 title="3-view 관측에서 3차원 대퇴골 추정"
-                note="왼쪽은 연구에 사용된 DRR 3장, 가운데는 복원 결과, 오른쪽은 해당 케이스의 정량 지표입니다. 모든 값은 연구 산출물에서 직접 읽습니다."
+                note="왼쪽은 연구에 사용된 DRR 3장, 가운데는 복원 결과, 오른쪽은 해당 케이스의 정량 지표다. 모든 값은 연구 산출물에서 직접 읽는다."
               />
 
               <div className="spread" style={{ paddingBottom: 18, borderBottom: '1px solid var(--line)' }}>
@@ -158,9 +158,9 @@ export default function Reconstruction() {
                   </div>
                   <p className="tiny dim" style={{ marginTop: 10, maxWidth: 620 }}>
                     {run.status === 'done' && run.source === 'precomputed'
-                      ? '브라우저에서 추론한 것이 아니라 연구 파이프라인이 미리 계산한 결과입니다.'
+                      ? '브라우저에서 추론한 것이 아니라 연구 파이프라인이 미리 계산한 결과다.'
                       : run.status === 'done'
-                        ? '서버가 잠금 파이프라인(M1 전처리 → B0 추론)을 실제로 실행해 메시를 생성했습니다.'
+                        ? '서버가 잠금 파이프라인(M1 전처리 → B0 추론)을 실제로 실행해 메시를 생성했다.'
                         : active.desc}
                   </p>
                 </div>

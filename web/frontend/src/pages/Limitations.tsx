@@ -22,7 +22,7 @@ export default function Limitations() {
             <PageHead
               label="Known limitations"
               title="이 연구가 아직 하지 못한 것"
-              note="성능 수치보다 중요한 항목입니다. 아래는 STEP38 최종 종합에서 미해결로 기록된 내용이며 모두 실제 실험에서 확인된 것입니다."
+              note="성능 수치보다 중요한 항목이다. 아래는 STEP38 최종 종합에서 미해결로 기록된 내용이며 모두 실제 실험에서 확인된 것이다."
             />
 
             <div>
@@ -55,7 +55,7 @@ export default function Limitations() {
                 <div>
                   <Lab>Evaluation condition</Lab>
                   <p className="muted small" style={{ marginTop: 14, maxWidth: 560 }}>
-                    모든 수치는 CT에서 생성한 합성 X-ray(DRR) 환경에서 6명을 대상으로 측정된 것입니다.
+                    모든 수치는 CT에서 생성한 합성 X-ray(DRR) 환경에서 6명을 대상으로 측정된 것이다.
                   </p>
                 </div>
               </div>

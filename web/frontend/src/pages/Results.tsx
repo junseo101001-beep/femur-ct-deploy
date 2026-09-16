@@ -14,7 +14,7 @@ export default function Results() {
               <PageHead
                 label="Results / independent validation"
                 title="학습에 쓰이지 않은 6명에서의 정상 입력 성능"
-                note="최종 모델을 한 번만 적용한 결과입니다. M1은 정상 입력에서 B0와 bit 단위로 동일하게 동작하므로 두 값이 같습니다."
+                note="최종 모델을 한 번만 적용한 결과다. M1은 정상 입력에서 B0와 bit 단위로 동일하게 동작하므로 두 값이 같다."
               />
 
               <div className="g2" style={{ gap: 56 }}>
@@ -50,7 +50,7 @@ export default function Results() {
                     />
                   </div>
                   <p className="tiny dim" style={{ marginTop: 18 }}>
-                    막대는 절대 스케일입니다. 차이를 크게 보이게 하려고 축을 잘라내지 않았습니다.
+                    막대는 절대 스케일이다. 차이를 크게 보이게 하려고 축을 잘라내지 않았다.
                   </p>
                 </div>
               </div>
@@ -58,7 +58,7 @@ export default function Results() {
               <Sec
                 num="01"
                 title="대상별 결과"
-                note={`6명 중 ${n_better}명에서 E0보다 좋아졌고, Pat095에서는 E0가 더 좋았습니다. 평균이 좋아졌다고 모든 대상이 좋아지는 것은 아닙니다.`}
+                note={`6명 중 ${n_better}명에서 E0보다 좋아졌고, Pat095에서는 E0가 더 좋았다. 평균이 좋아졌다고 모든 대상이 좋아지는 것은 아니다.`}
               >
                 <SubjectRow
                   items={pids.map((p, i) => ({ label: caseLabel(p, i), improved: per_subject[p].improved, value: `${fmt(Math.abs(per_subject[p].delta), 3)} mm` }))}
@@ -124,8 +124,8 @@ export default function Results() {
                   />
                 </div>
                 <p className="muted small" style={{ marginTop: 22, maxWidth: 720 }}>
-                  평균이 좋아도 p95가 크면 국소적으로 크게 틀린 부분이 있다는 뜻입니다. 이 연구에서 fallback을 제한적으로만
-                  채택한 이유도 평균이 아니라 p95 때문입니다.
+                  평균이 좋아도 p95가 크면 국소적으로 크게 틀린 부분이 있다는 뜻이다. 이 연구에서 fallback을 제한적으로만
+                  채택한 이유도 평균이 아니라 p95 때문이다.
                 </p>
               </Sec>
             </div>

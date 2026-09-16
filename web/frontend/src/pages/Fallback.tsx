@@ -22,7 +22,7 @@ export default function Fallback() {
               <PageHead
                 label="Fallback / missing landmark case"
                 title="GT + kneeCenter가 동시에 없을 때"
-                note="두 기준점이 함께 관측되지 않는 입력에서만 사용하는 제한적 경로입니다. 정상 입력에는 적용하지 않습니다."
+                note="두 기준점이 함께 관측되지 않는 입력에서만 사용하는 제한적 경로다. 정상 입력에는 적용하지 않는다."
               />
 
               <div className="g2" style={{ gap: 64, alignItems: 'start' }}>
@@ -61,7 +61,7 @@ export default function Fallback() {
                 </div>
               </div>
 
-              <Sec num="01" title="대상별 결과" note="한 명(Pat095)에서는 fallback이 오히려 나빠집니다. 어떤 대상이 어려운지 미리 판별할 방법은 아직 없습니다.">
+              <Sec num="01" title="대상별 결과" note="한 명(Pat095)에서는 fallback이 오히려 나빠진다. 어떤 대상이 어려운지 미리 판별할 방법은 아직 없다.">
                 <div className="tscroll">
                   <table className="t">
                     <thead><tr><th>{t('subject')}</th><th>{t('Main only')}</th><th>{t('F1')}</th><th>{t('Δ Sym')}</th><th>{t('Main p95')}</th><th>{t('F1 p95')}</th><th>{t('F1 Cov5')}</th></tr></thead>

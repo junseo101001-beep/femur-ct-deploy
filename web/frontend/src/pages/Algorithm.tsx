@@ -26,7 +26,7 @@ export default function Algorithm() {
             <PageHead
               label="Algorithm / reconstruction pipeline"
               title="복원은 어떤 순서로 이루어지는가"
-              note="학습된 신경망이 3차원 형상을 직접 출력하는 방식이 아니라, 통계 형상 모델(SSM)의 계수를 2D 관측으로부터 최소제곱으로 추정하는 방식입니다."
+              note="학습된 신경망이 3차원 형상을 직접 출력하는 방식이 아니라, 통계 형상 모델(SSM)의 계수를 2D 관측으로부터 최소제곱으로 추정하는 방식이다."
             />
 
             <Sec num="01" title="Main path — M1">
@@ -55,7 +55,7 @@ export default function Algorithm() {
               </div>
             </Sec>
 
-            <Sec num="02" title="Fallback path — F1" note="GT + kneeCenter가 동시에 관측되지 않은 입력에서만 이 경로로 라우팅합니다.">
+            <Sec num="02" title="Fallback path — F1" note="GT + kneeCenter가 동시에 관측되지 않은 입력에서만 이 경로로 라우팅한다.">
               <div className="g2" style={{ gap: 64, alignItems: 'start' }}>
                 <Flow nodes={FALLBACK_NODES} inputs={['GT + KC MISSING']} />
                 <div>
@@ -83,7 +83,7 @@ export default function Algorithm() {
               </div>
             </Sec>
 
-            <Sec num="03" title="Model development" note="채택된 것만이 아니라 무엇이 왜 실패했는지가 최종 한계를 정의합니다. 핵심 milestone만 표시합니다.">
+            <Sec num="03" title="Model development" note="채택된 것만이 아니라 무엇이 왜 실패했는지가 최종 한계를 정의한다. 핵심 milestone만 표시한다.">
               <div className="tl">
                 {MILESTONES.map((m) => (
                   <div className={`tl-item${m.key ? ' key' : ''}`} key={m.step + m.title}>

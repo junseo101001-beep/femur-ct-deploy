@@ -28,7 +28,7 @@ export function Gate({ children }: { children: (d: { research: Research; manifes
       <div className="notice" style={{ marginTop: 24 }}>
         <div className="label" style={{ color: 'var(--warn)' }}>DEMO DATA NOT FOUND</div>
         <p className="small muted" style={{ margin: '8px 0 0' }}>
-          {error ?? 'unknown error'} — <span className="mono">python web/export_demo_data.py</span> 를 실행해 demo_data 를 생성하세요.
+          {error ?? 'unknown error'} — <span className="mono">python web/export_demo_data.py</span> 를 실행해 demo_data 를 생성한다.
         </p>
       </div>
     )

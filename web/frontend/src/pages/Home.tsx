@@ -28,8 +28,8 @@ export default function Home() {
                     shape using a statistical shape model.
                   </p>
                   <p className="hero-desc small" style={{ marginTop: 12 }}>
-                    0°·45°·90° 세 방향의 관측만으로 개인별 대퇴골의 자세와 형태를 추정합니다.
-                    평가는 CT에서 생성한 DRR과 독립 검증 6명을 기준으로 합니다.
+                    0°·45°·90° 세 방향의 관측만으로 개인별 대퇴골의 자세와 형태를 추정한다.
+                    평가는 CT에서 생성한 DRR과 독립 검증 6명을 기준으로 한다.
                   </p>
 
                   <Meta
@@ -82,8 +82,8 @@ export default function Home() {
                 <div>
                   <Lab>Scope</Lab>
                   <p className="muted small" style={{ marginTop: 12 }}>
-                    입력은 모두 CT에서 생성한 DRR이며, 실제 X-ray 촬영 영상으로는 검증되지 않았습니다.
-                    독립 검증 대상은 6명이고, 2D 기준점은 영상에서 검출한 값이 아니라 3D 좌표의 투영값입니다.
+                    입력은 모두 CT에서 생성한 DRR이며, 실제 X-ray 촬영 영상으로는 검증되지 않았다.
+                    독립 검증 대상은 6명이고, 2D 기준점은 영상에서 검출한 값이 아니라 3D 좌표의 투영값이다.
                   </p>
                 </div>
                 <div>

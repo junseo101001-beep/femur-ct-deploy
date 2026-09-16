@@ -23,14 +23,14 @@ export default function Robustness() {
               <PageHead
                 label="Robustness / M1 under input perturbation"
                 title="입력이 나빠질 때 무엇이 먼저 무너지는가"
-                note="잡음·흐림·대비·촬영각·기준점 결측을 하나씩 바꿔 같은 6명에게 적용했습니다. M1의 유일한 변경점(적응형 문턱값)은 잡음 조건에서만 작동합니다."
+                note="잡음·흐림·대비·촬영각·기준점 결측을 하나씩 바꿔 같은 6명에게 적용했다. M1의 유일한 변경점(적응형 문턱값)은 잡음 조건에서만 작동한다."
               />
 
               {/* ------------------------------------------------ 01 noise */}
               <Sec
                 num="01"
                 title="Gaussian noise"
-                note="SNR이 낮아지면 기존 전처리(M0)는 윤곽 추출이 무너져 복원이 붕괴합니다. M1은 배경 잡음 크기를 재서 문턱값을 올리는 것만으로 이를 막습니다."
+                note="SNR이 낮아지면 기존 전처리(M0)는 윤곽 추출이 무너져 복원이 붕괴한다. M1은 배경 잡음 크기를 재서 문턱값을 올리는 것만으로 이를 막는다."
                 right={<span className="mono tiny acc">4.145 → 1.469 mm @ SNR 50</span>}
               >
                 <Bars
@@ -93,7 +93,7 @@ export default function Robustness() {
               </Sec>
 
               {/* ------------------------------------------------ 02 blur */}
-              <Sec num="02" title="Blur" note="M1의 문턱값은 잡음에만 반응하므로 흐림 조건에서는 입력이 M0와 완전히 같습니다. 열화가 그대로 남아 있습니다.">
+              <Sec num="02" title="Blur" note="M1의 문턱값은 잡음에만 반응하므로 흐림 조건에서는 입력이 M0와 완전히 같다. 열화가 그대로 남아 있다.">
                 <Bars
                   rows={[
                     { label: 'clean', values: { v: clean.sym } },
@@ -106,7 +106,7 @@ export default function Robustness() {
               </Sec>
 
               {/* ------------------------------------------------ 03 contrast */}
-              <Sec num="03" title="Contrast" note="영상 대비를 0.5배에서 1.5배까지 바꿔도 성능이 사실상 변하지 않습니다.">
+              <Sec num="03" title="Contrast" note="영상 대비를 0.5배에서 1.5배까지 바꿔도 성능이 사실상 변하지 않는다.">
                 <Bars
                   rows={[
                     { label: 'clean', values: { v: clean.sym } },
@@ -123,7 +123,7 @@ export default function Robustness() {
               <Sec
                 num="04"
                 title="Projection angle error"
-                note="세 방향의 실제 촬영각이 가정한 각도와 다를 때입니다. ±1°까지는 비교적 안정적이고, ±2°부터 저하가 시작되며 ±5°에서는 뚜렷하게 열화됩니다."
+                note="세 방향의 실제 촬영각이 가정한 각도와 다를 때다. ±1°까지는 비교적 안정적이고, ±2°부터 저하가 시작되며 ±5°에서는 뚜렷하게 열화된다."
                 right={<span className="mono tiny warn">limitation</span>}
               >
                 <Bars
@@ -145,7 +145,7 @@ export default function Robustness() {
               <Sec
                 num="05"
                 title="Missing landmark"
-                note="GT와 kneeCenter가 동시에 관측되지 않는 경우입니다. 이 조건에서만 F1 fallback으로 라우팅합니다."
+                note="GT와 kneeCenter가 동시에 관측되지 않는 경우다. 이 조건에서만 F1 fallback으로 라우팅한다."
                 right={<Link className="tbtn" to="/fallback">Fallback detail →</Link>}
               >
                 <Bars
@@ -161,8 +161,8 @@ export default function Robustness() {
                 <div className="note-box" style={{ marginTop: 26, maxWidth: 780 }}>
                   <div className="mono tiny warn">tail error</div>
                   <p className="small muted" style={{ marginTop: 8 }}>
-                    평균은 개선되지만 p95는 {fmt(research.missing.control.p95.mean, 3)} → {fmt(research.missing.f1.p95.mean, 3)} mm로 악화됩니다.
-                    F1을 제한적 fallback으로만 채택한 이유입니다.
+                    평균은 개선되지만 p95는 {fmt(research.missing.control.p95.mean, 3)} → {fmt(research.missing.f1.p95.mean, 3)} mm로 악화된다.
+                    F1을 제한적 fallback으로만 채택한 이유다.
                   </p>
                 </div>
               </Sec>
