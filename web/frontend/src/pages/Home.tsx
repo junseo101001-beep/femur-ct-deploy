@@ -16,17 +16,13 @@ export default function Home() {
             <div className="wrap">
               <div className="hero">
                 <div>
-                  <Lab>Femur 3D reconstruction / 2026</Lab>
+                  <Lab>대퇴골 3차원 복원 / 2026</Lab>
                   <h1 style={{ marginTop: 18 }}>
-                    3D Femur
+                    다방향 X-ray 영상에서
                     <br />
-                    Reconstruction
-                    <span className="l2">from Multi-view X-ray</span>
+                    3차원 대퇴골
+                    <span className="l2">복원</span>
                   </h1>
-                  <p className="hero-desc">
-                    Three-view X-ray/DRR observations are used to estimate individual femoral pose and
-                    shape using a statistical shape model.
-                  </p>
                   <p className="hero-desc small" style={{ marginTop: 12 }}>
                     0°·45°·90° 세 방향의 관측만으로 개인별 대퇴골의 자세와 형태를 추정한다.
                     평가는 CT에서 생성한 DRR과 독립 검증 6명을 기준으로 한다.
@@ -42,7 +38,7 @@ export default function Home() {
                   />
 
                   <div className="row" style={{ marginTop: 34, gap: 8 }}>
-                    <Link className="tbtn wide" to="/reconstruction">Reconstruction →</Link>
+                    <Link className="tbtn wide" to="/reconstruction">복원 →</Link>
                   </div>
                 </div>
 

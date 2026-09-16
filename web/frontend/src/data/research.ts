@@ -150,11 +150,11 @@ export const LIMITATIONS = [
 ]
 
 export const PAGES = [
-  { path: '/reconstruction', label: 'RECONSTRUCTION' },
-  { path: '/results', label: 'RESULTS' },
-  { path: '/robustness', label: 'ROBUSTNESS' },
-  { path: '/algorithm', label: 'ALGORITHM' },
-  { path: '/limitations', label: 'LIMITATIONS' },
+  { path: '/reconstruction', label: '복원' },
+  { path: '/results', label: '결과' },
+  { path: '/robustness', label: '강건성' },
+  { path: '/algorithm', label: '알고리즘' },
+  { path: '/limitations', label: '한계' },
 ]
 
 /** 핵심 milestone 만 (STEP 전체 나열하지 않음) */
