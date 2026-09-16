@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Gate } from '../data/store'
 import { DEMO_BASE, caseLabel, row } from '../data/research'
 import { BONE, BONE_ALT, FemurViewer, GT_COLOR } from '../components/FemurViewer'
-import { Bars, Lab, PageHead, Sec, fmt } from '../components/ui'
+import { Bars, Lab, PageHead, Sec, fmt, t } from '../components/ui'
 
 export default function Robustness() {
   const [showGt, setShowGt] = useState(false)
@@ -48,7 +48,7 @@ export default function Robustness() {
                   <div style={{ marginTop: 46 }}>
                     <div className="spread" style={{ marginBottom: 16 }}>
                       <Lab>Same noisy input (SNR {nd.snr}, σ {nd.sigma}) · {caseLabel(nd.case_pid, manifest.cases.findIndex((c) => c.pid === nd.case_pid))}</Lab>
-                      <button className={`tbtn ${showGt ? 'on' : ''}`} onClick={() => setShowGt(!showGt)}>GT overlay</button>
+                      <button className={`tbtn ${showGt ? 'on' : ''}`} onClick={() => setShowGt(!showGt)}>{t('GT overlay')}</button>
                     </div>
 
                     <div className="g3" style={{ gap: 14, marginBottom: 22 }}>
@@ -81,7 +81,7 @@ export default function Robustness() {
                           </FemurViewer>
                           <div className="spread" style={{ padding: '14px 2px 0' }}>
                             <span className="mono" style={{ fontSize: 17 }}>{fmt(x.v, 3)} <span className="tiny dim">mm</span></span>
-                            <span className="mono tiny dim">Cov5 {fmt(x.cov, 2)} %</span>
+                            <span className="mono tiny dim">{t('Cov5')} {fmt(x.cov, 2)} %</span>
                           </div>
                           <div className="tiny dim" style={{ marginTop: 6 }}>{x.note}</div>
                         </div>
@@ -151,8 +151,8 @@ export default function Robustness() {
                 <Bars
                   rows={[
                     { label: 'clean (참고)', values: { v: clean.sym } },
-                    { label: 'Main only', values: { v: research.missing.control.sym.mean } },
-                    { label: 'F1 fallback', values: { v: research.missing.f1.sym.mean }, emphasis: true, note: `평균 ${fmt(Math.abs(research.missing.delta_f1_control.mean), 4)} mm 개선 · 6명 중 5명` },
+                    { label: t('Main only'), values: { v: research.missing.control.sym.mean } },
+                    { label: t('F1 fallback'), values: { v: research.missing.f1.sym.mean }, emphasis: true, note: `평균 ${fmt(Math.abs(research.missing.delta_f1_control.mean), 4)} mm 개선 · 6명 중 5명` },
                   ]}
                   series={[{ key: 'v', label: 'mean Sym', tone: 'a' }]}
                   decimals={4}

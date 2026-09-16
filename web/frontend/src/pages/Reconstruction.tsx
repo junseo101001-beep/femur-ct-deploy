@@ -3,16 +3,16 @@ import { Gate } from '../data/store'
 import { DEMO_BASE, caseLabel, type CaseData } from '../data/research'
 import { api } from '../data/api'
 import { BONE, BONE_ALT, FemurViewer, GT_COLOR, ViewerControls, initialViewerState, type Layer, type ViewerState } from '../components/FemurViewer'
-import { DL, Lab, PageHead, fmt, signed } from '../components/ui'
+import { DL, Lab, PageHead, fmt, signed, t } from '../components/ui'
 
 type Mode = 'clean' | 'missing' | 'fallback'
 interface RunState { status: 'idle' | 'running' | 'done'; stage: string; source: string | null; serverMs: number | null }
 interface HealthInfo { live_inference: boolean; model_md5?: string; mode?: string }
 
 const MODES: { k: Mode; label: string; mesh: string; color: string; desc: string }[] = [
-  { k: 'clean', label: 'M1 / normal', mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1이 사용됩니다.' },
-  { k: 'missing', label: 'Main / GT+KC missing', mesh: 'recon_missing_main', color: BONE_ALT, desc: 'GT와 kneeCenter가 동시에 없는 입력을 Main 경로가 그대로 처리한 경우 (fallback 미적용).' },
-  { k: 'fallback', label: 'F1 / GT+KC missing', mesh: 'recon_fallback_f1', color: '#c2b7a4', desc: '같은 결측 입력을 F1 fallback으로 복원한 경우.' },
+  { k: 'clean', label: t('M1 / normal'), mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1이 사용됩니다.' },
+  { k: 'missing', label: t('Main / GT+KC missing'), mesh: 'recon_missing_main', color: BONE_ALT, desc: 'GT와 kneeCenter가 동시에 없는 입력을 Main 경로가 그대로 처리한 경우 (fallback 미적용).' },
+  { k: 'fallback', label: t('F1 / GT+KC missing'), mesh: 'recon_fallback_f1', color: '#c2b7a4', desc: '같은 결측 입력을 F1 fallback으로 복원한 경우.' },
 ]
 
 export default function Reconstruction() {
@@ -136,7 +136,7 @@ export default function Reconstruction() {
                   >
                     <div className="viewer-note">
                       <div className="mono tiny dim">
-                        {active.label} · {caseLabel(c.pid, caseIdx)}{vs.showGt ? ' · GT overlay' : ''}{live[mode] ? ' · live server mesh' : ''}
+                        {active.label} · {caseLabel(c.pid, caseIdx)}{vs.showGt ? ` · ${t('GT overlay')}` : ''}{live[mode] ? ' · live server mesh' : ''}
                       </div>
                     </div>
                   </FemurViewer>
@@ -171,31 +171,31 @@ export default function Reconstruction() {
                   <div style={{ marginTop: 14 }}>
                     <DL
                       rows={[
-                        { k: 'Symmetric surface error', v: `${fmt(m.sym, 3)} mm` },
-                        { k: 'P95', v: `${fmt(m.p95, 3)} mm` },
-                        { k: 'Cov5', v: `${fmt(m.cov5, 2)} %` },
-                        { k: 'Volume error', v: `${fmt(m.vol_err_pct, 2)} %` },
-                        { k: 'Latent error (α)', v: `${fmt(m.alpha_rmse_sigma, 3)} σ` },
+                        { k: t('Symmetric surface error'), v: `${fmt(m.sym, 3)} mm` },
+                        { k: t('P95'), v: `${fmt(m.p95, 3)} mm` },
+                        { k: t('Cov5'), v: `${fmt(m.cov5, 2)} %` },
+                        { k: t('Volume error'), v: `${fmt(m.vol_err_pct, 2)} %` },
+                        { k: t('Latent error (α)'), v: `${fmt(m.alpha_rmse_sigma, 3)} σ` },
                         { gap: true },
-                        { k: 'Pose rotation', v: `${fmt(c.metrics.clean_m1.rot_deg, 3)} °` },
-                        { k: 'Pose translation', v: `${fmt(c.metrics.clean_m1.trans_mm, 3)} mm` },
+                        { k: t('Pose rotation'), v: `${fmt(c.metrics.clean_m1.rot_deg, 3)} °` },
+                        { k: t('Pose translation'), v: `${fmt(c.metrics.clean_m1.trans_mm, 3)} mm` },
                         { gap: true },
-                        { k: 'Baseline (E0)', v: `${fmt(c.metrics.baseline_e0.sym, 3)} mm` },
-                        { k: 'Improvement (M1 − E0)', v: <span className={dE0 < 0 ? 'acc' : 'warn'}>{signed(dE0, 3)} mm</span> },
-                        { k: 'Cohort validation', v: `${research.clean.n_better} / 6 improved` },
+                        { k: t('Baseline (E0)'), v: `${fmt(c.metrics.baseline_e0.sym, 3)} mm` },
+                        { k: t('Improvement (M1 − E0)'), v: <span className={dE0 < 0 ? 'acc' : 'warn'}>{signed(dE0, 3)} mm</span> },
+                        { k: t('Cohort validation'), v: `${research.clean.n_better} / 6 improved` },
                       ]}
                     />
                   </div>
 
                   <div style={{ marginTop: 34 }}>
-                    <Lab>Condition comparison</Lab>
+                    <Lab>{t('Condition comparison')}</Lab>
                     <table className="t" style={{ marginTop: 12 }}>
                       <thead><tr><th>condition</th><th>Sym</th><th>p95</th></tr></thead>
                       <tbody>
-                        <tr className={mode === 'clean' ? 'mark' : undefined}><td className="tx">M1 normal</td><td>{fmt(c.metrics.clean_m1.sym)}</td><td>{fmt(c.metrics.clean_m1.p95)}</td></tr>
-                        <tr className={mode === 'missing' ? 'mark' : undefined}><td className="tx">Main, GT+KC missing</td><td>{fmt(c.metrics.missing_main.sym)}</td><td>{fmt(c.metrics.missing_main.p95)}</td></tr>
-                        <tr className={mode === 'fallback' ? 'mark' : undefined}><td className="tx">F1 fallback</td><td>{fmt(c.metrics.fallback_f1.sym)}</td><td>{fmt(c.metrics.fallback_f1.p95)}</td></tr>
-                        <tr><td className="tx">E0 baseline</td><td>{fmt(c.metrics.baseline_e0.sym)}</td><td>{fmt(c.metrics.baseline_e0.p95)}</td></tr>
+                        <tr className={mode === 'clean' ? 'mark' : undefined}><td className="tx">{t('M1 normal')}</td><td>{fmt(c.metrics.clean_m1.sym)}</td><td>{fmt(c.metrics.clean_m1.p95)}</td></tr>
+                        <tr className={mode === 'missing' ? 'mark' : undefined}><td className="tx">{t('Main, GT+KC missing')}</td><td>{fmt(c.metrics.missing_main.sym)}</td><td>{fmt(c.metrics.missing_main.p95)}</td></tr>
+                        <tr className={mode === 'fallback' ? 'mark' : undefined}><td className="tx">{t('F1 fallback')}</td><td>{fmt(c.metrics.fallback_f1.sym)}</td><td>{fmt(c.metrics.fallback_f1.p95)}</td></tr>
+                        <tr><td className="tx">{t('E0 baseline')}</td><td>{fmt(c.metrics.baseline_e0.sym)}</td><td>{fmt(c.metrics.baseline_e0.p95)}</td></tr>
                       </tbody>
                     </table>
                     <div className="tiny dim" style={{ marginTop: 12 }}>

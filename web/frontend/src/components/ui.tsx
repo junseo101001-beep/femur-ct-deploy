@@ -12,6 +12,55 @@ export function Delta({ v, d = 3 }: { v: number; d?: number }) {
   return <span className={v < 0 ? 'acc' : 'warn'}>{signed(v, d)}</span>
 }
 
+/**
+ * UI 용어: 영어 원어 유지 + 짧은 한국어 병기. 전 페이지 동일 매핑.
+ * 숫자·결과값은 건드리지 않고 표시 라벨에만 사용한다.
+ */
+export const TERM: Record<string, string> = {
+  'Symmetric surface error': 'Symmetric surface error (대칭 표면 오차)',
+  'Mean surface error': 'Mean surface error (평균 표면 오차)',
+  'Absolute volume error': 'Absolute volume error (절대 부피 오차)',
+  'P95': 'P95 (95백분위 표면 오차)',
+  'Cov5': 'Cov5 (5 mm 이내 포함률)',
+  'Volume error': 'Volume error (부피 오차)',
+  'Latent error (α)': 'Latent error (잠재계수 오차, α)',
+  'Pose rotation': 'Pose rotation (자세 회전 오차)',
+  'Pose translation': 'Pose translation (자세 이동 오차)',
+  'Baseline (E0)': 'Baseline (기존 모델, E0)',
+  'E0 baseline': 'E0 baseline (기존 모델)',
+  'Improvement (M1 − E0)': 'Improvement (개선량, M1 − E0)',
+  'Cohort validation': 'Cohort validation (검증 대상 전체 결과)',
+  'Condition comparison': 'Condition comparison (조건별 비교)',
+  'Ground truth': 'Ground truth (실제 정답 모델)',
+  'GT overlay': 'GT overlay (정답 중첩 표시)',
+  'Overlay': 'Overlay (중첩 표시)',
+  'M1 / normal': 'M1 / normal (최종 복원)',
+  'M1 normal': 'M1 normal (최종 복원)',
+  'Main / GT+KC missing': 'Main / GT+KC missing (기본 경로 / GT·KC 누락)',
+  'Main, GT+KC missing': 'Main, GT+KC missing (기본 경로 / GT·KC 누락)',
+  'Main only': 'Main only (기본 경로)',
+  'Main only · GT+KC missing': 'Main only · GT+KC missing (기본 경로 / GT·KC 누락)',
+  'F1 / GT+KC missing': 'F1 / GT+KC missing (대체 복원 / GT·KC 누락)',
+  'F1 fallback': 'F1 fallback (대체 복원)',
+  'F1': 'F1 (대체 복원)',
+  'E0 Sym': 'E0 Sym (기존 모델)',
+  'M1 Sym': 'M1 Sym (최종 복원)',
+  'Δ Sym': 'Δ Sym (차이)',
+  'E0 p95': 'E0 p95 (기존 모델)',
+  'M1 p95': 'M1 p95 (최종 복원)',
+  'M1 Cov5': 'M1 Cov5 (5 mm 이내 포함률)',
+  'M1 vol err': 'M1 vol err (부피 오차)',
+  'Main p95': 'Main p95 (기본 경로)',
+  'F1 p95': 'F1 p95 (대체 복원)',
+  'F1 Cov5': 'F1 Cov5 (5 mm 이내 포함률)',
+  'P95 (main → F1)': 'P95 (main → F1) (95백분위 변화)',
+  'Cov5 (main → F1)': 'Cov5 (main → F1) (포함률 변화)',
+  'subject': 'subject (검증 대상)',
+}
+export function t(key: string): string {
+  return TERM[key] ?? key
+}
+
 /** 페이지 머리 — 라벨 / 제목 / 설명 */
 export function PageHead({ label, title, note }: { label: string; title: string; note?: ReactNode }) {
   return (

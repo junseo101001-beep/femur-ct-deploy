@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Gate } from '../data/store'
 import { DEMO_BASE, caseLabel } from '../data/research'
 import { BONE, BONE_ALT, FemurViewer, GT_COLOR } from '../components/FemurViewer'
-import { DL, Delta, Flow, Lab, PageHead, Sec, fmt } from '../components/ui'
+import { DL, Delta, Flow, Lab, PageHead, Sec, fmt, t } from '../components/ui'
 
 export default function Fallback() {
   const [caseIdx, setCaseIdx] = useState(4)   // Pat080 — p95 한계가 가장 잘 드러나는 대상
@@ -40,13 +40,13 @@ export default function Fallback() {
                   <div style={{ marginTop: 18 }}>
                     <DL
                       rows={[
-                        { k: 'Main only', v: `${fmt(ctrl.sym.mean, 4)} mm` },
-                        { k: 'F1 fallback', v: `${fmt(f1.sym.mean, 4)} mm` },
+                        { k: t('Main only'), v: `${fmt(ctrl.sym.mean, 4)} mm` },
+                        { k: t('F1 fallback'), v: `${fmt(f1.sym.mean, 4)} mm` },
                         { k: 'Improvement', v: <Delta v={d.mean} d={4} /> },
                         { k: 'Improved subjects', v: '5 / 6' },
                         { gap: true },
-                        { k: 'P95 (main → F1)', v: <span className="warn">{fmt(ctrl.p95.mean, 3)} → {fmt(f1.p95.mean, 3)} mm</span> },
-                        { k: 'Cov5 (main → F1)', v: `${fmt(ctrl.cov5.mean, 2)} → ${fmt(f1.cov5.mean, 2)} %` },
+                        { k: t('P95 (main → F1)'), v: <span className="warn">{fmt(ctrl.p95.mean, 3)} → {fmt(f1.p95.mean, 3)} mm</span> },
+                        { k: t('Cov5 (main → F1)'), v: `${fmt(ctrl.cov5.mean, 2)} → ${fmt(f1.cov5.mean, 2)} %` },
                         { gap: true },
                         { k: 'STEP39 geometry probe', v: <span className="warn">{fmt(research.missing.geom_probe_step39.sym, 4)} mm · 미채택</span> },
                         { k: 'Adopted fallback', v: research.missing.geom_probe_step39.adopted_fallback ?? 'FALLBACK_BASE (F1)' },
@@ -64,7 +64,7 @@ export default function Fallback() {
               <Sec num="01" title="대상별 결과" note="한 명(Pat095)에서는 fallback이 오히려 나빠집니다. 어떤 대상이 어려운지 미리 판별할 방법은 아직 없습니다.">
                 <div className="tscroll">
                   <table className="t">
-                    <thead><tr><th>subject</th><th>Main only</th><th>F1</th><th>Δ Sym</th><th>Main p95</th><th>F1 p95</th><th>F1 Cov5</th></tr></thead>
+                    <thead><tr><th>{t('subject')}</th><th>{t('Main only')}</th><th>{t('F1')}</th><th>{t('Δ Sym')}</th><th>{t('Main p95')}</th><th>{t('F1 p95')}</th><th>{t('F1 Cov5')}</th></tr></thead>
                     <tbody>
                       {research.validation_cohort.map((p, i) => {
                         const s = research.missing.per_subject[p]
@@ -105,13 +105,13 @@ export default function Fallback() {
                       <button key={cc.id} className={`tbtn ${i === caseIdx ? 'on' : ''}`} onClick={() => setCaseIdx(i)}>{caseLabel(cc.pid, i)}</button>
                     ))}
                   </div>
-                  <button className={`tbtn ${showGt ? 'on' : ''}`} onClick={() => setShowGt(!showGt)}>GT overlay</button>
+                  <button className={`tbtn ${showGt ? 'on' : ''}`} onClick={() => setShowGt(!showGt)}>{t('GT overlay')}</button>
                 </div>
 
                 <div className="g2" style={{ gap: 20 }}>
                   {[
-                    { key: 'recon_missing_main', label: 'Main only · GT+KC missing', color: BONE_ALT, v: ps.control.sym, p95: ps.control.p95 },
-                    { key: 'recon_fallback_f1', label: 'F1 fallback', color: BONE, v: ps.f1.sym, p95: ps.f1.p95 },
+                    { key: 'recon_missing_main', label: t('Main only · GT+KC missing'), color: BONE_ALT, v: ps.control.sym, p95: ps.control.p95 },
+                    { key: 'recon_fallback_f1', label: t('F1 fallback'), color: BONE, v: ps.f1.sym, p95: ps.f1.p95 },
                   ].map((x) => (
                     <div key={x.key}>
                       <FemurViewer

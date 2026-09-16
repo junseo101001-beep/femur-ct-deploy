@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Gate } from '../data/store'
 import { DEMO_BASE, caseLabel, row } from '../data/research'
 import { BONE, FemurViewer } from '../components/FemurViewer'
-import { Lab, Meta, Strip, fmt } from '../components/ui'
+import { Lab, Meta, Strip, fmt, t } from '../components/ui'
 
 export default function Home() {
   return (
@@ -68,9 +68,9 @@ export default function Home() {
 
               <Strip
                 items={[
-                  { k: 'Mean surface error', v: fmt(research.clean.b0.sym, 4), u: 'mm', note: 'clean · independent validation n=6' },
-                  { k: 'P95', v: fmt(research.clean.b0.p95, 3), u: 'mm', note: 'hausdorff 95th percentile' },
-                  { k: 'Cov5', v: fmt(research.clean.b0.cov5, 2), u: '%', note: 'GT surface within 5 mm' },
+                  { k: t('Mean surface error'), v: fmt(research.clean.b0.sym, 4), u: 'mm', note: 'clean · independent validation n=6' },
+                  { k: t('P95'), v: fmt(research.clean.b0.p95, 3), u: 'mm', note: 'hausdorff 95th percentile' },
+                  { k: t('Cov5'), v: fmt(research.clean.b0.cov5, 2), u: '%', note: 'GT surface within 5 mm' },
                   { k: 'Improved', v: `${research.clean.n_better} / 6`, note: `vs E0 baseline ${fmt(research.clean.e0.sym, 4)} mm` },
                   {
                     k: 'Noise SNR 50',

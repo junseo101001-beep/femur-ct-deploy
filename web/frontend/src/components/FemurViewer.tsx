@@ -3,6 +3,7 @@ import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { ContactShadows, OrbitControls, useProgress } from '@react-three/drei'
 import { STLLoader, mergeVertices } from 'three-stdlib'
 import * as THREE from 'three'
+import { t } from './ui'
 
 export interface Layer {
   url: string
@@ -212,12 +213,12 @@ export function ViewerControls({
 
       {gt && (
         <div className="tool-group">
-          <div className="lab">Ground truth</div>
+          <div className="lab">{t('Ground truth')}</div>
           <div className="tool-row">
             <button
               className={`tbtn ${s.showGt ? 'on' : ''}`}
               onClick={() => set({ showGt: !s.showGt, opacity: s.showGt ? 1 : 0.5 })}
-            >Overlay</button>
+            >{t('Overlay')}</button>
             <input type="range" min={0.1} max={1} step={0.01} value={s.gtOpacity} disabled={!s.showGt}
                    onChange={(e) => set({ gtOpacity: Number(e.target.value) })} />
             <span className="mono tiny muted" style={{ width: 34 }}>{Math.round(s.gtOpacity * 100)}%</span>

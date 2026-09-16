@@ -1,6 +1,6 @@
 import { Gate } from '../data/store'
 import { caseLabel } from '../data/research'
-import { Bars, DL, Delta, Lab, PageHead, Sec, SubjectRow, fmt } from '../components/ui'
+import { Bars, DL, Delta, Lab, PageHead, Sec, SubjectRow, fmt, t } from '../components/ui'
 
 export default function Results() {
   return (
@@ -23,13 +23,13 @@ export default function Results() {
                   <div style={{ marginTop: 16 }}>
                     <DL
                       rows={[
-                        { k: 'Symmetric surface error', v: `${fmt(b0.sym, 4)} mm` },
-                        { k: 'P95', v: `${fmt(b0.p95, 3)} mm` },
-                        { k: 'Cov5', v: `${fmt(b0.cov5, 2)} %` },
-                        { k: 'Absolute volume error', v: `${fmt(b0.abs_vol, 2)} %` },
-                        { k: 'Latent error (α)', v: `${fmt(b0.alpha, 3)} σ` },
+                        { k: t('Symmetric surface error'), v: `${fmt(b0.sym, 4)} mm` },
+                        { k: t('P95'), v: `${fmt(b0.p95, 3)} mm` },
+                        { k: t('Cov5'), v: `${fmt(b0.cov5, 2)} %` },
+                        { k: t('Absolute volume error'), v: `${fmt(b0.abs_vol, 2)} %` },
+                        { k: t('Latent error (α)'), v: `${fmt(b0.alpha, 3)} σ` },
                         { gap: true },
-                        { k: 'Baseline (E0)', v: `${fmt(e0.sym, 4)} mm` },
+                        { k: t('Baseline (E0)'), v: `${fmt(e0.sym, 4)} mm` },
                         { k: 'Improvement', v: <span className="acc">{fmt(delta_b0_e0, 4)} mm</span> },
                         { k: 'Validation', v: `${n_better} / 6 improved` },
                       ]}
@@ -67,10 +67,10 @@ export default function Results() {
                 <div className="tscroll" style={{ marginTop: 30 }}>
                   <table className="t">
                     <thead>
-                      <tr>
-                        <th>subject</th><th>E0 Sym</th><th>M1 Sym</th><th>Δ Sym</th>
-                        <th>E0 p95</th><th>M1 p95</th><th>M1 Cov5</th><th>M1 vol err</th>
-                      </tr>
+                        <tr>
+                          <th>{t('subject')}</th><th>{t('E0 Sym')}</th><th>{t('M1 Sym')}</th><th>{t('Δ Sym')}</th>
+                          <th>{t('E0 p95')}</th><th>{t('M1 p95')}</th><th>{t('M1 Cov5')}</th><th>{t('M1 vol err')}</th>
+                        </tr>
                     </thead>
                     <tbody>
                       {pids.map((p, i) => {
@@ -112,14 +112,14 @@ export default function Results() {
                 <div className="g2" style={{ gap: 56 }}>
                   <DL
                     rows={[
-                      { k: 'Symmetric surface error', v: '복원 ↔ 정답 표면 거리 중앙값' },
-                      { k: 'P95', v: '오차 상위 5% 지점의 거리' },
+                      { k: t('Symmetric surface error'), v: '복원 ↔ 정답 표면 거리 중앙값' },
+                      { k: t('P95'), v: '오차 상위 5% 지점의 거리' },
                     ]}
                   />
                   <DL
                     rows={[
-                      { k: 'Cov5', v: '정답 표면 중 5 mm 이내 비율' },
-                      { k: 'Volume error', v: '복원 부피의 상대 오차 (음수 = 과소)' },
+                      { k: t('Cov5'), v: '정답 표면 중 5 mm 이내 비율' },
+                      { k: t('Volume error'), v: '복원 부피의 상대 오차 (음수 = 과소)' },
                     ]}
                   />
                 </div>
