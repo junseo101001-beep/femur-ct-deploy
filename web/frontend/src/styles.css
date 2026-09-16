@@ -103,6 +103,9 @@ p:last-child { margin-bottom: 0; }
 .nav-in { height: var(--nav-h); display: flex; align-items: center; gap: 36px; }
 .nav-brand { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.14em; color: var(--text); }
 .nav-links { display: flex; gap: 26px; margin: 0 auto; }
+.nav-home { position: absolute; left: var(--pad); display: flex; align-items: center; color: var(--text); opacity: 0.85; }
+.nav-home:hover { opacity: 1; }
+.nav-in { position: relative; }
 .nav-links a {
   font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.06em; color: var(--text); font-weight: 500;
   padding: 20px 0; border-bottom: 1px solid transparent; margin-bottom: -1px; transition: color .15s;

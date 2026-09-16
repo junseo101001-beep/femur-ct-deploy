@@ -22,6 +22,12 @@ export default function App() {
 
       <nav className="nav">
         <div className="wrap nav-in">
+          <NavLink to="/" className="nav-home" aria-label="홈">
+            <svg width="17" height="17" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" strokeLinecap="round">
+              <path d="M2 8.2 8 2.8l6 5.4" />
+              <path d="M3.8 7.4V13.2h8.4V7.4" />
+            </svg>
+          </NavLink>
           <div className="nav-links">
             {PAGES.map((p) => (
               <NavLink key={p.path} to={p.path} className={({ isActive }) => (isActive ? 'active' : '')}>
