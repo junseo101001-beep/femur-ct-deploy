@@ -104,7 +104,7 @@ p:last-child { margin-bottom: 0; }
 .nav-brand { font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.14em; color: var(--text); }
 .nav-links { display: flex; gap: 26px; margin-left: auto; }
 .nav-links a {
-  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--muted);
+  font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.06em; color: var(--text); font-weight: 500;
   padding: 20px 0; border-bottom: 1px solid transparent; margin-bottom: -1px; transition: color .15s;
 }
 .nav-links a:hover { color: var(--text); }

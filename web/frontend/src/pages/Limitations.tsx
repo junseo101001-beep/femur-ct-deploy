@@ -21,7 +21,7 @@ export default function Limitations() {
           <div className="wrap">
             <PageHead
               label="Known limitations"
-              title="이 연구가 아직 하지 못한 것"
+              title="해결하지 못한 것"
               note="성능 수치보다 중요한 항목이다. 아래는 STEP38 최종 종합에서 미해결로 기록된 내용이며 모두 실제 실험에서 확인된 것이다."
             />
 
