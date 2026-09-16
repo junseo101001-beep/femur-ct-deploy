@@ -181,31 +181,31 @@ export function ViewerControls({
   return (
     <div className="tools">
       <div className="tool-group">
-        <div className="lab">Camera</div>
+        <div className="lab">카메라</div>
         <div className="tool-row">
-          <button className="tbtn" onClick={() => set({ preset: 'free', resetToken: s.resetToken + 1 })}>Reset</button>
-          {(['front', 'side', 'top'] as const).map((p) => (
+          <button className="tbtn" onClick={() => set({ preset: 'free', resetToken: s.resetToken + 1 })}>초기화</button>
+          {([['front', '정면'], ['side', '측면'], ['top', '위']] as const).map(([p, label]) => (
             <button key={p} className={`tbtn ${s.preset === p ? 'on' : ''}`} onClick={() => set({ preset: p })}>
-              {p[0].toUpperCase() + p.slice(1)}
+              {label}
             </button>
           ))}
         </div>
       </div>
 
       <div className="tool-group">
-        <div className="lab">Display</div>
+        <div className="lab">화면</div>
         <div className="tool-row">
           <label className="check">
             <input type="checkbox" checked={s.wireframe} onChange={(e) => set({ wireframe: e.target.checked })} />
-            Wireframe
+            와이어프레임
           </label>
           <label className="check" style={{ marginLeft: 16 }}>
             <input type="checkbox" checked={s.autoRotate} onChange={(e) => set({ autoRotate: e.target.checked })} />
-            Auto rotate
+            자동 회전
           </label>
         </div>
         <div className="tool-row">
-          <span className="lab" style={{ minWidth: 52 }}>Opacity</span>
+          <span className="lab" style={{ minWidth: 52 }}>불투명도</span>
           <input type="range" min={0.15} max={1} step={0.01} value={s.opacity} onChange={(e) => set({ opacity: Number(e.target.value) })} />
           <span className="mono tiny muted" style={{ width: 34 }}>{Math.round(s.opacity * 100)}%</span>
         </div>

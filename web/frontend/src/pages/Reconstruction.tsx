@@ -89,9 +89,11 @@ export default function Reconstruction() {
                     </button>
                   ))}
                 </div>
-                <div className="mono tiny" style={{ color: health?.live_inference ? 'var(--accent)' : 'var(--muted)' }}>
-                  {health?.live_inference ? 'LIVE BACKEND / locked M1 pipeline' : 'DEMO MODE / precomputed result'}
-                </div>
+                {health?.live_inference && (
+                  <div className="mono tiny" style={{ color: 'var(--accent)' }}>
+                    LIVE BACKEND / locked M1 pipeline
+                  </div>
+                )}
               </div>
 
               <div className="recon-grid">
@@ -145,10 +147,10 @@ export default function Reconstruction() {
 
                   <div className="row" style={{ marginTop: 24, gap: 8, paddingTop: 18, borderTop: '1px solid var(--line)' }}>
                     <button className="tbtn wide" disabled={run.status === 'running'} onClick={() => runReconstruction(c)}>
-                      {run.status === 'running' ? 'Running…' : 'Run reconstruction'}
+                      {run.status === 'running' ? '실행 중…' : '복원 실행'}
                     </button>
                     <button className="tbtn wide" onClick={() => { setRun({ status: 'idle', stage: '', source: null, serverMs: null }); setLive({}); setVs(initialViewerState) }}>
-                      Reset
+                      처음으로
                     </button>
                     {run.status !== 'idle' && (
                       <span className="mono tiny" style={{ color: run.status === 'done' ? 'var(--accent)' : 'var(--muted)' }}>
