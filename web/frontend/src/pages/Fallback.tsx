@@ -25,7 +25,7 @@ export default function Fallback() {
                 note="두 기준점이 함께 관측되지 않는 입력에서만 사용하는 제한적 경로다. 정상 입력에는 적용하지 않는다."
               />
 
-              <div className="g2" style={{ gap: 64, alignItems: 'start' }}>
+              <div className="g2" style={{ gap: 48, alignItems: 'start' }}>
                 <div>
                   <Lab>Routing</Lab>
                   <div style={{ marginTop: 18 }}>
@@ -117,7 +117,7 @@ export default function Fallback() {
                       <FemurViewer
                         key={c.id + x.key}
                         height={400}
-                        background="#1f2a44"
+                        background={null}
                         layers={[
                           { url: `${DEMO_BASE}/${c.meshes[x.key].file}`, color: x.color, opacity: showGt ? 0.5 : 1, visible: true },
                           { url: `${DEMO_BASE}/${c.meshes.gt.file}`, color: GT_COLOR, opacity: 0.45, visible: showGt, smooth: false },

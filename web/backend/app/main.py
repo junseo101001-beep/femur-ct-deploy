@@ -231,3 +231,60 @@ def mesh(token: str) -> FileResponse:
     if not os.path.exists(p) or not token.isalnum():
         raise HTTPException(404, "mesh not found")
     return FileResponse(p, media_type="model/stl", filename=f"{token}.stl")
+
+
+# ---------------------------------------------------------------- reconstruction trace (read-only adapter)
+
+@app.post("/api/reconstruct/trace")
+def reconstruct_trace(req: ReconRequest) -> dict[str, Any]:
+    """한 번의 추론에서 단계별 중간 결과를 함께 수집한다. /api/reconstruct 는 그대로 둔다.
+
+    큰 데이터는 JSON 에 넣지 않고 파일로 둔다 : mask PNG(1-bit) 3장, 최종 STL, SSM 평균 형상 STL.
+    SDF 격자(3×112×40)와 윤곽·landmark 좌표만 반올림해 JSON 에 포함한다.
+    """
+    from . import trace as TR
+    pid = req.case_id
+    d = os.path.join(FEMUR, "drr_g", pid)
+    if not os.path.isdir(d):
+        raise HTTPException(404, f"unknown case: {pid}")
+    if req.condition not in ("clean", "missing", "fallback"):
+        raise HTTPException(400, "condition must be clean | missing | fallback")
+    E = engine()
+    if not E["ready"]:
+        raise HTTPException(503, f"live inference unavailable: {E['error']}")
+    t0 = time.time()
+    imgs = {t: np.load(os.path.join(d, f"drr_{t}.npy")) for t in VIEW_TAGS}
+    T = TR.trace_pipeline(E, FEMUR, pid, imgs, req.condition)
+
+    man = _manifest()
+    c = next((cc for cc in man["cases"] if cc["pid"] == pid), None)
+    if c:
+        center = np.array(c["display_transform"]["center_mm"]); scale = c["display_transform"]["scale_mm"]
+    else:
+        center = (T["posed"].min(0) + T["posed"].max(0)) / 2.0; scale = float(np.linalg.norm(T["posed"] - center, axis=1).max())
+
+    token = "t" + uuid.uuid4().hex[:12]
+    tdir = os.path.join(RUNS, token)
+    os.makedirs(tdir, exist_ok=True)
+    for v in T["views"]:
+        TR.write_mask_png(os.path.join(tdir, "mask_%s.png" % v["tag"][:3]), v["mask"])
+    write_stl(os.path.join(tdir, "final.stl"), (T["posed"] - center) / scale, E["faces"])
+    write_stl(os.path.join(tdir, "mean_shape.stl"), (T["posed_mean"] - center) / scale, E["faces"])
+    base = f"/api/trace/{token}"
+    return {
+        "case_id": pid, "mode": "live", "model_md5": E["md5"],
+        "meta": TR.trace_meta_json(T),
+        "views": TR.trace_views_json(T, lambda tag: f"{base}/mask_{tag[:3]}.png"),
+        "condition": TR.trace_condition_json(T),
+        "files": {"final_mesh": f"{base}/final.stl", "mean_shape_mesh": f"{base}/mean_shape.stl"},
+        "timing_ms": {**T["timing_ms"], "total": round((time.time() - t0) * 1000, 1)},
+    }
+
+
+@app.get("/api/trace/{token}/{name}")
+def trace_file(token: str, name: str) -> FileResponse:
+    allowed = {"final.stl", "mean_shape.stl", "mask_000.png", "mask_045.png", "mask_090.png"}
+    p = os.path.join(RUNS, token, name)
+    if not token.isalnum() or name not in allowed or not os.path.exists(p):
+        raise HTTPException(404, "trace file not found")
+    return FileResponse(p, media_type="model/stl" if name.endswith(".stl") else "image/png")

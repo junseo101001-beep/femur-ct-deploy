@@ -1,25 +1,87 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
 import { Gate } from '../data/store'
-import { DEMO_BASE, caseLabel, type CaseData } from '../data/research'
+import { DEMO_BASE, caseLabel, type CaseData, type Metric } from '../data/research'
 import { api } from '../data/api'
-import { BONE, BONE_ALT, FemurViewer, GT_COLOR, ViewerControls, initialViewerState, type Layer, type ViewerState } from '../components/FemurViewer'
-import { DL, Lab, PageHead, fmt, signed, t } from '../components/ui'
+import { BONE, BONE_ALT, FemurViewer, GT_COLOR, initialViewerState, type Layer, type ViewerState } from '../components/FemurViewer'
+import { fmt, signed } from '../components/ui'
 
 type Mode = 'clean' | 'missing' | 'fallback'
 interface RunState { status: 'idle' | 'running' | 'done'; stage: string; source: string | null; serverMs: number | null }
 interface HealthInfo { live_inference: boolean; model_md5?: string; mode?: string }
 
-const MODES: { k: Mode; label: string; mesh: string; color: string; desc: string }[] = [
-  { k: 'clean', label: t('M1 / normal'), mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1을 사용한다.' },
-  { k: 'missing', label: t('Main / GT+KC missing'), mesh: 'recon_missing_main', color: BONE_ALT, desc: 'GT와 kneeCenter가 동시에 없는 입력을 Main 경로가 그대로 처리한 경우 (fallback 미적용).' },
-  { k: 'fallback', label: t('F1 / GT+KC missing'), mesh: 'recon_fallback_f1', color: '#c2b7a4', desc: '같은 결측 입력을 F1 fallback으로 복원한 경우.' },
+const MODES: { k: Mode; label: string; ko: string; mesh: string; color: string; desc: string }[] = [
+  { k: 'clean', label: 'M1 / normal', ko: '최종 복원', mesh: 'recon_clean', color: BONE, desc: '모든 기준점이 관측된 정상 입력. 최종 Main 모델 M1을 사용한다.' },
+  { k: 'missing', label: 'Main / GT+KC missing', ko: '기본 경로 · GT·KC 누락', mesh: 'recon_missing_main', color: BONE_ALT, desc: 'GT와 kneeCenter가 동시에 없는 입력을 Main 경로가 그대로 처리한 경우 (fallback 미적용).' },
+  { k: 'fallback', label: 'F1 / GT+KC missing', ko: '대체 복원 · GT·KC 누락', mesh: 'recon_fallback_f1', color: '#c2b7a4', desc: '같은 결측 입력을 F1 fallback으로 복원한 경우.' },
 ]
+
+const IDLE: RunState = { status: 'idle', stage: '', source: null, serverMs: null }
+
+/* ------------------------------------------------------------------ small parts */
+
+const Ico = {
+  case: <path d="M3 4.5h4l1.2 1.5H13v6.5H3z" />,
+  model: <><circle cx="8" cy="8" r="5" /><path d="M8 3v10M3 8h10" /></>,
+  view: <><path d="M8 2.5 13 5.2v5.6L8 13.5 3 10.8V5.2z" /><path d="M3 5.2 8 8l5-2.8M8 8v5.5" /></>,
+  display: <><rect x="3" y="3" width="4" height="4" /><rect x="9" y="3" width="4" height="4" /><rect x="3" y="9" width="4" height="4" /><rect x="9" y="9" width="4" height="4" /></>,
+  run: <path d="M5 3.5v9l7.5-4.5z" />,
+}
+
+function Section({ icon, title, ko, children, defaultOpen = true }: { icon: ReactNode; title: string; ko?: string; children: ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen)
+  return (
+    <section className="rc-sec">
+      <button className="rc-sec-h" onClick={() => setOpen(!open)} aria-expanded={open}>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round">{icon}</svg>
+        <span className="rc-sec-t">{title}</span>
+        {ko && <span className="rc-sec-ko">{ko}</span>}
+        <svg className={`rc-chev${open ? ' open' : ''}`} width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.3"><path d="M2 6.5 5 3.5l3 3" /></svg>
+      </button>
+      {open && <div className="rc-sec-b">{children}</div>}
+    </section>
+  )
+}
+
+function Check({ on, set, children }: { on: boolean; set: (v: boolean) => void; children: ReactNode }) {
+  return (
+    <label className="rc-check">
+      <input type="checkbox" checked={on} onChange={(e) => set(e.target.checked)} />
+      <span>{children}</span>
+    </label>
+  )
+}
+
+function Slider({ label, value, min, max, set, disabled }: { label: ReactNode; value: number; min: number; max: number; set: (v: number) => void; disabled?: boolean }) {
+  return (
+    <div className={`rc-slider${disabled ? ' off' : ''}`}>
+      <span className="rc-slider-l">{label}</span>
+      <input type="range" min={min} max={max} step={0.01} value={value} disabled={disabled} onChange={(e) => set(Number(e.target.value))} />
+      <span className="rc-slider-v">{Math.round(value * 100)}%</span>
+    </div>
+  )
+}
+
+function MetricRow({ en, ko, v, u, tone }: { en: string; ko: string; v: ReactNode; u?: string; tone?: 'good' | 'bad' }) {
+  return (
+    <div className="rm-row">
+      <div>
+        <div className="rm-ko">{ko}</div>
+        <div className="rm-en">{en}</div>
+      </div>
+      <div className={`rm-v${tone ? ` ${tone}` : ''}`}>
+        {v}{u && <span className="rm-u">{u}</span>}
+      </div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ page */
 
 export default function Reconstruction() {
   const [caseIdx, setCaseIdx] = useState(0)
   const [mode, setMode] = useState<Mode>('clean')
   const [vs, setVs] = useState<ViewerState>(initialViewerState)
-  const [run, setRun] = useState<RunState>({ status: 'idle', stage: '', source: null, serverMs: null })
+  const [run, setRun] = useState<RunState>(IDLE)
   const [live, setLive] = useState<Partial<Record<Mode, string>>>({})
   const [health, setHealth] = useState<HealthInfo | null>(null)
   const set = (p: Partial<ViewerState>) => setVs((s) => ({ ...s, ...p }))
@@ -58,154 +120,187 @@ export default function Reconstruction() {
   }
 
   return (
-    <main className="page">
+    <main className="rc-page">
       <Gate>
         {({ manifest, research }) => {
           const c = manifest.cases[caseIdx]
           const active = MODES.find((m) => m.k === mode)!
-          const m = mode === 'clean' ? c.metrics.clean_m1 : mode === 'missing' ? c.metrics.missing_main : c.metrics.fallback_f1
+          const m: Metric = mode === 'clean' ? c.metrics.clean_m1 : mode === 'missing' ? c.metrics.missing_main : c.metrics.fallback_f1
           const meshUrl = live[mode] ?? `${DEMO_BASE}/${c.meshes[active.mesh].file}`
           const layers: Layer[] = [
             { url: meshUrl, color: active.color, opacity: vs.opacity, visible: true, wireframe: vs.wireframe },
             { url: `${DEMO_BASE}/${c.meshes.gt.file}`, color: GT_COLOR, opacity: vs.gtOpacity, visible: vs.showGt, smooth: false },
           ]
           const dE0 = c.metrics.delta_b0_minus_e0
+          const lock = research.lock
+          const isLive = !!health?.live_inference
 
           return (
-            <div className="wrap">
-              <PageHead
-                label="Reconstruction / multi-view input"
-                title="3-view 관측에서 3차원 대퇴골 추정"
-                note="왼쪽은 연구에 사용된 DRR 3장, 가운데는 복원 결과, 오른쪽은 해당 케이스의 정량 지표다. 모든 값은 연구 산출물에서 직접 읽는다."
-              />
-
-              <div className="spread" style={{ paddingBottom: 18, borderBottom: '1px solid var(--line)' }}>
-                <div className="row" style={{ gap: 6 }}>
-                  <span className="lab" style={{ marginRight: 8 }}>Case</span>
-                  {manifest.cases.map((cc, i) => (
-                    <button key={cc.id} className={`tbtn ${i === caseIdx ? 'on' : ''}`}
-                            onClick={() => { setCaseIdx(i); setRun({ status: 'idle', stage: '', source: null, serverMs: null }); setLive({}) }}>
-                      {caseLabel(cc.pid, i)}
-                    </button>
-                  ))}
-                </div>
-                {health?.live_inference && (
-                  <div className="mono tiny" style={{ color: 'var(--accent)' }}>
-                    LIVE BACKEND / locked M1 pipeline
-                  </div>
-                )}
-              </div>
-
-              <div className="recon-grid">
-                {/* ---------------------------------------------- input */}
-                <div>
-                  <Lab>3-view input</Lab>
-                  <div style={{ display: 'grid', gap: 14, marginTop: 14 }}>
-                    {(['000', '045', '090'] as const).map((k) => (
-                      <div className="xray" key={k}>
-                        <img src={`${DEMO_BASE}/${c.drr[k].file}`} alt={`DRR ${c.drr[k].angle_deg}°`} loading="lazy" />
-                        <div className="xray-cap">
-                          <span className="mono tiny">{c.drr[k].angle_deg}°</span>
-                          <span className="mono tiny dim">{c.drr[k].shape[1]}×{c.drr[k].shape[0]}</span>
-                        </div>
-                      </div>
+            <div className="rc-grid">
+              {/* ============================================== left: control panel */}
+              <aside className="rc-panel rc-left">
+                <Section icon={Ico.case} title="CASE" ko="검증 대상">
+                  <div className="rc-opts cases">
+                    {manifest.cases.map((cc, i) => (
+                      <button key={cc.id} className={`rc-opt${i === caseIdx ? ' on' : ''}`}
+                              onClick={() => { setCaseIdx(i); setRun(IDLE); setLive({}) }}>
+                        {caseLabel(cc.pid, i)}
+                      </button>
                     ))}
                   </div>
-                  <div className="mono tiny dim" style={{ marginTop: 16, lineHeight: 1.95 }}>
-                    DRR (CT-derived)<br />detector 450×600 px / 0.8 mm<br />SID 1150 / SOD 1050 mm
+                </Section>
+
+                <Section icon={Ico.model} title="MODEL" ko="복원 조건">
+                  <div className="rc-opts">
+                    {MODES.map((mm) => (
+                      <button key={mm.k} className={`rc-opt model${mode === mm.k ? ' on' : ''}`} onClick={() => setMode(mm.k)}>
+                        <span className="en">{mm.label}</span>
+                        <span className="ko">{mm.ko}</span>
+                      </button>
+                    ))}
                   </div>
-                </div>
+                  <p className="rc-note">{active.desc}</p>
+                </Section>
 
-                {/* ---------------------------------------------- viewer */}
-                <div>
-                  <div className="spread" style={{ marginBottom: 12 }}>
-                    <Lab>3D viewer</Lab>
-                    <div className="row" style={{ gap: 6 }}>
-                      {MODES.map((mm) => (
-                        <button key={mm.k} className={`tbtn ${mode === mm.k ? 'on' : ''}`} onClick={() => setMode(mm.k)}>{mm.label}</button>
-                      ))}
-                    </div>
+                <Section icon={Ico.view} title="VIEW" ko="시점">
+                  <div className="rc-opts four">
+                    {([['front', 'Front'], ['side', 'Side'], ['top', 'Top']] as const).map(([p, label]) => (
+                      <button key={p} className={`rc-opt${vs.preset === p ? ' on' : ''}`} onClick={() => set({ preset: p })}>{label}</button>
+                    ))}
+                    <button className="rc-opt" onClick={() => set({ preset: 'free', resetToken: vs.resetToken + 1 })}>Reset</button>
                   </div>
+                </Section>
 
-                  <FemurViewer
-                    key={c.id}
-                    height={520}
-                    layers={layers}
-                    autoRotate={vs.autoRotate}
-                    preset={vs.preset}
-                    resetToken={vs.resetToken}
-                    background="#1f2a44"
-                  >
-                    <div className="viewer-note">
-                      <div className="mono tiny dim">
-                        {active.label} · {caseLabel(c.pid, caseIdx)}{vs.showGt ? ` · ${t('GT overlay')}` : ''}{live[mode] ? ' · live server mesh' : ''}
-                      </div>
-                    </div>
-                  </FemurViewer>
+                <Section icon={Ico.display} title="DISPLAY" ko="표시">
+                  <Check on={vs.wireframe} set={(v) => set({ wireframe: v })}>Wireframe <em>와이어프레임</em></Check>
+                  <Check on={vs.showGt} set={(v) => set({ showGt: v, opacity: v ? 0.5 : 1 })}>GT overlay <em>정답 중첩 표시</em></Check>
+                  <Slider label="GT opacity" value={vs.gtOpacity} min={0.1} max={1} set={(v) => set({ gtOpacity: v })} disabled={!vs.showGt} />
+                  <Slider label="Opacity" value={vs.opacity} min={0.15} max={1} set={(v) => set({ opacity: v })} />
+                  <Check on={vs.autoRotate} set={(v) => set({ autoRotate: v })}>Auto rotate <em>자동 회전</em></Check>
+                </Section>
 
-                  <ViewerControls s={vs} set={set} />
-
-                  <div className="row" style={{ marginTop: 24, gap: 8, paddingTop: 18, borderTop: '1px solid var(--line)' }}>
-                    <button className="tbtn wide" disabled={run.status === 'running'} onClick={() => runReconstruction(c)}>
+                <Section icon={Ico.run} title="RUN" ko="복원 실행">
+                  <a className="rc-process-link" href="/algorithm#process">복원 과정 단계별로 보기 (알고리즘) →</a>
+                  <div className={`rc-mode ${isLive ? 'live' : 'demo'}`}>
+                    <span className="dot" />
+                    {isLive ? 'LIVE BACKEND · locked M1 pipeline' : 'DEMO MODE · precomputed results'}
+                  </div>
+                  <div className="rc-opts two" style={{ marginTop: 12 }}>
+                    <button className="rc-opt primary" disabled={run.status === 'running'} onClick={() => runReconstruction(c)}>
                       {run.status === 'running' ? '실행 중…' : '복원 실행'}
                     </button>
-                    <button className="tbtn wide" onClick={() => { setRun({ status: 'idle', stage: '', source: null, serverMs: null }); setLive({}); setVs(initialViewerState) }}>
-                      처음으로
-                    </button>
-                    {run.status !== 'idle' && (
-                      <span className="mono tiny" style={{ color: run.status === 'done' ? 'var(--accent)' : 'var(--muted)' }}>
-                        {run.status === 'running' ? `${run.stage}…` : `${run.stage} — ${run.source}${run.serverMs ? ` · ${run.serverMs} ms` : ''}`}
-                      </span>
-                    )}
+                    <button className="rc-opt" onClick={() => { setRun(IDLE); setLive({}); setVs(initialViewerState) }}>처음으로</button>
                   </div>
-                  <p className="tiny dim" style={{ marginTop: 10, maxWidth: 620 }}>
-                    {run.status === 'done' && run.source === 'precomputed'
-                      ? '브라우저에서 추론한 것이 아니라 연구 파이프라인이 미리 계산한 결과다.'
-                      : run.status === 'done'
-                        ? '서버가 잠금 파이프라인(M1 전처리 → B0 추론)을 실제로 실행해 메시를 생성했다.'
-                        : active.desc}
-                  </p>
-                </div>
-
-                {/* ---------------------------------------------- result */}
-                <div>
-                  <Lab>Result</Lab>
-                  <div style={{ marginTop: 14 }}>
-                    <DL
-                      rows={[
-                        { k: t('Symmetric surface error'), v: `${fmt(m.sym, 3)} mm` },
-                        { k: t('P95'), v: `${fmt(m.p95, 3)} mm` },
-                        { k: t('Cov5'), v: `${fmt(m.cov5, 2)} %` },
-                        { k: t('Volume error'), v: `${fmt(m.vol_err_pct, 2)} %` },
-                        { k: t('Latent error (α)'), v: `${fmt(m.alpha_rmse_sigma, 3)} σ` },
-                        { gap: true },
-                        { k: t('Pose rotation'), v: `${fmt(c.metrics.clean_m1.rot_deg, 3)} °` },
-                        { k: t('Pose translation'), v: `${fmt(c.metrics.clean_m1.trans_mm, 3)} mm` },
-                        { gap: true },
-                        { k: t('Baseline (E0)'), v: `${fmt(c.metrics.baseline_e0.sym, 3)} mm` },
-                        { k: t('Improvement (M1 − E0)'), v: <span className={dE0 < 0 ? 'acc' : 'warn'}>{signed(dE0, 3)} mm</span> },
-                        { k: t('Cohort validation'), v: `${research.clean.n_better} / 6 improved` },
-                      ]}
-                    />
-                  </div>
-
-                  <div style={{ marginTop: 34 }}>
-                    <Lab>{t('Condition comparison')}</Lab>
-                    <table className="t" style={{ marginTop: 12 }}>
-                      <thead><tr><th>condition</th><th>Sym</th><th>p95</th></tr></thead>
-                      <tbody>
-                        <tr className={mode === 'clean' ? 'mark' : undefined}><td className="tx">{t('M1 normal')}</td><td>{fmt(c.metrics.clean_m1.sym)}</td><td>{fmt(c.metrics.clean_m1.p95)}</td></tr>
-                        <tr className={mode === 'missing' ? 'mark' : undefined}><td className="tx">{t('Main, GT+KC missing')}</td><td>{fmt(c.metrics.missing_main.sym)}</td><td>{fmt(c.metrics.missing_main.p95)}</td></tr>
-                        <tr className={mode === 'fallback' ? 'mark' : undefined}><td className="tx">{t('F1 fallback')}</td><td>{fmt(c.metrics.fallback_f1.sym)}</td><td>{fmt(c.metrics.fallback_f1.p95)}</td></tr>
-                        <tr><td className="tx">{t('E0 baseline')}</td><td>{fmt(c.metrics.baseline_e0.sym)}</td><td>{fmt(c.metrics.baseline_e0.p95)}</td></tr>
-                      </tbody>
-                    </table>
-                    <div className="tiny dim" style={{ marginTop: 12 }}>
-                      단위 mm · 화면 정합은 평가와 동일한 E0 pose 사용
+                  {run.status !== 'idle' && (
+                    <div className={`rc-run${run.status === 'done' ? ' done' : ''}`}>
+                      {run.status === 'running' ? `${run.stage}…` : `${run.stage} — ${run.source}${run.serverMs ? ` · ${run.serverMs} ms` : ''}`}
                     </div>
+                  )}
+                  {run.status === 'done' && (
+                    <p className="rc-note">
+                      {run.source === 'precomputed'
+                        ? '브라우저에서 추론한 것이 아니라 연구 파이프라인이 미리 계산한 결과다.'
+                        : '서버가 잠금 파이프라인(M1 전처리 → B0 추론)을 실제로 실행해 메시를 생성했다.'}
+                    </p>
+                  )}
+                </Section>
+              </aside>
+
+              {/* ============================================== center: 3D stage */}
+              <div className="rc-stage">
+                <FemurViewer
+                  key={c.id}
+                  className="rc-canvas"
+                  height="100%"
+                  layers={layers}
+                  autoRotate={vs.autoRotate}
+                  preset={vs.preset}
+                  resetToken={vs.resetToken}
+                  background={null}
+                  shadow
+                  fov={30}
+                  axes
+                >
+                  <div className="rc-stage-tag">
+                    <span className="mono">{active.label}</span>
+                    <span>{caseLabel(c.pid, caseIdx)}</span>
+                    {vs.showGt && <span style={{ color: '#9a7a3a' }}>GT overlay</span>}
+                    {live[mode] && <span className="acc">live server mesh</span>}
                   </div>
+                  <div className="rc-hint">
+                    <svg width="18" height="12" viewBox="0 0 18 12" fill="none" stroke="currentColor" strokeWidth="1.1"><ellipse cx="9" cy="6" rx="8" ry="4.5" /><path d="M13.5 3.2 16 4l-.6-2.6" /></svg>
+                    <span>Drag to rotate · Scroll to zoom · Right-drag to pan</span>
+                  </div>
+                </FemurViewer>
+
+                <div className="rc-xrays">
+                  {(['000', '045', '090'] as const).map((k) => (
+                    <figure key={k}>
+                      <div className="rc-xray"><img src={`${DEMO_BASE}/${c.drr[k].file}`} alt={`DRR ${c.drr[k].angle_deg}°`} /></div>
+                      <figcaption><span>{c.drr[k].angle_deg}°</span><i /></figcaption>
+                    </figure>
+                  ))}
+                  <div className="rc-xray-note">DRR input<br />CT-derived · 450×600</div>
                 </div>
               </div>
+
+              {/* ============================================== right: result panel */}
+              <aside className="rc-panel rc-right">
+                <div className="rm-lab">RECONSTRUCTION</div>
+                <h1 className="rm-title">3D Femur Reconstruction</h1>
+                <div className="rm-sub">다중 뷰 X-ray 기반 대퇴골 3차원 복원</div>
+                <div className="rm-badge"><span className="dot" />{lock.main.name} / LOCKED <span className="ko">· 최종 확정 모델</span></div>
+
+                <div className="rm-ctx">
+                  <span>{caseLabel(c.pid, caseIdx)}</span>
+                  <span>{active.label}</span>
+                </div>
+
+                <div className="rm-list">
+                  <MetricRow en="Symmetric surface error" ko="평균 대칭 표면 오차" v={fmt(m.sym, 3)} u="mm" />
+                  <MetricRow en="P95" ko="95백분위 표면 오차" v={fmt(m.p95, 3)} u="mm" />
+                  <MetricRow en="Cov5" ko="5 mm 이내 포함률" v={fmt(m.cov5, 2)} u="%" />
+                  <MetricRow en="Volume error" ko="부피 오차" v={m.vol_err_pct == null ? '—' : signed(m.vol_err_pct, 2)} u="%" />
+                  <MetricRow en="Latent error (α)" ko="잠재계수 오차" v={fmt(m.alpha_rmse_sigma, 3)} u="σ" />
+                </div>
+
+                <div className="rm-group">
+                  <div className="rm-glab">BASELINE COMPARISON <span>기존 모델 대비 · M1 정상 입력</span></div>
+                  <MetricRow en="Baseline (E0)" ko="기존 모델" v={fmt(c.metrics.baseline_e0.sym, 3)} u="mm" />
+                  <MetricRow en="Improvement (M1 − E0)" ko="개선량" v={signed(dE0, 3)} u="mm" tone={dE0 < 0 ? 'good' : 'bad'} />
+                  <MetricRow en="Cohort validation" ko="검증 대상 개선" v={`${research.clean.n_better} / 6`} />
+                </div>
+
+                <div className="rm-group">
+                  <div className="rm-glab">POSE <span>자세 추정 · M1 정상 입력</span></div>
+                  <MetricRow en="Pose rotation" ko="자세 회전 오차" v={fmt(c.metrics.clean_m1.rot_deg, 3)} u="°" />
+                  <MetricRow en="Pose translation" ko="자세 이동 오차" v={fmt(c.metrics.clean_m1.trans_mm, 3)} u="mm" />
+                </div>
+
+                <div className="rm-group">
+                  <div className="rm-glab">CONDITION COMPARISON <span>조건별 비교 · mm</span></div>
+                  <table className="rm-table">
+                    <thead><tr><th>condition</th><th>Sym</th><th>p95</th></tr></thead>
+                    <tbody>
+                      <tr className={mode === 'clean' ? 'on' : undefined}><td>M1 normal <em>최종 복원</em></td><td>{fmt(c.metrics.clean_m1.sym)}</td><td>{fmt(c.metrics.clean_m1.p95)}</td></tr>
+                      <tr className={mode === 'missing' ? 'on' : undefined}><td>Main, GT+KC missing <em>기본 경로</em></td><td>{fmt(c.metrics.missing_main.sym)}</td><td>{fmt(c.metrics.missing_main.p95)}</td></tr>
+                      <tr className={mode === 'fallback' ? 'on' : undefined}><td>F1 fallback <em>대체 복원</em></td><td>{fmt(c.metrics.fallback_f1.sym)}</td><td>{fmt(c.metrics.fallback_f1.p95)}</td></tr>
+                      <tr><td>E0 baseline <em>기존 모델</em></td><td>{fmt(c.metrics.baseline_e0.sym)}</td><td>{fmt(c.metrics.baseline_e0.p95)}</td></tr>
+                    </tbody>
+                  </table>
+                  <div className="rm-foot">화면 정합은 평가와 동일한 E0 pose 사용</div>
+                </div>
+
+                <div className="rm-info">
+                  <div className="rm-glab">MODEL INFO</div>
+                  <div className="rm-info-row">
+                    <div><span>Base</span><b>B0</b></div>
+                    <div><span>Training</span><b>N = 27</b></div>
+                    <div><span>Latent</span><b>K = {lock.main.b0_K}</b></div>
+                    <div><span>Regularization</span><b>γ = {lock.main.b0_gamma}</b></div>
+                  </div>
+                </div>
+              </aside>
             </div>
           )
         }}

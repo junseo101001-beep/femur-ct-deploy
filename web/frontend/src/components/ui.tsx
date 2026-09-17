@@ -152,12 +152,22 @@ export function Bars({
 }: { rows: BarRow[]; series: BarSeries[]; unit?: string; max?: number; decimals?: number; reference?: { value: number | null; label: string } }) {
   const all = rows.flatMap((r) => series.map((s) => r.values[s.key]).filter((v): v is number => typeof v === 'number'))
   const ref = typeof reference?.value === 'number' ? reference.value : null
-  const top = max ?? Math.max(...all, ref ?? 0) * 1.1
+  // 가장 긴 막대가 트랙의 ~80%만 쓰도록 — 수치를 막대 끝에 붙일 공간 확보
+  const top = max ?? Math.max(...all, ref ?? 0) * 1.25
+  const pct = (v: number) => `${Math.max(0.5, (v / top) * 100)}%`
 
   return (
-    <div>
+    <div className="bars">
+      {ref !== null && (
+        <div className="bar-row bar-ref-row">
+          <div />
+          <div className="bar-track">
+            <span className="bar-ref-tag" style={{ left: pct(ref) }}>{reference!.label}</span>
+          </div>
+        </div>
+      )}
       {rows.map((r) => (
-        <div key={r.label} style={{ padding: '10px 0', borderBottom: '1px solid var(--line-soft)' }}>
+        <div key={r.label} style={{ padding: '8px 0', borderBottom: '1px solid var(--line-soft)' }}>
           {series.map((s, si) => {
             const v = r.values[s.key]
             if (typeof v !== 'number') return null
@@ -167,22 +177,20 @@ export function Bars({
                   {r.label}
                 </div>
                 <div className="bar-track">
-                  {ref !== null && (
-                    <div className="bar-ref" style={{ left: `${(ref / top) * 100}%` }} title={reference!.label} />
-                  )}
-                  <div className={`bar ${(r.tone ?? s.tone) === 'a' ? 'a' : 'b'}`} style={{ width: `${Math.max(0.5, (v / top) * 100)}%` }} />
-                </div>
-                <div className="bar-val">
-                  {v.toFixed(decimals)}
-                  <span className="dim" style={{ marginLeft: 4 }}>{unit}</span>
+                  {ref !== null && <div className="bar-ref" style={{ left: pct(ref) }} title={reference!.label} />}
+                  <div className={`bar ${(r.tone ?? s.tone) === 'a' ? 'a' : 'b'}`} style={{ width: pct(v) }} />
+                  <span className="bar-val">
+                    {v.toFixed(decimals)}
+                    <span className="dim" style={{ marginLeft: 4 }}>{unit}</span>
+                  </span>
                 </div>
               </div>
             )
           })}
-          {r.note && <div className="tiny dim" style={{ marginLeft: 114 }}>{r.note}</div>}
+          {r.note && <div className="tiny dim bar-note">{r.note}</div>}
         </div>
       ))}
-      <div className="row" style={{ marginTop: 14, gap: 22 }}>
+      <div className="row" style={{ marginTop: 16, gap: 22 }}>
         {series.map((s) => (
           <span className="mono tiny muted" key={s.key}>
             <span style={{ display: 'inline-block', width: 16, height: 6, marginRight: 8, verticalAlign: 'middle', background: s.tone === 'a' ? 'var(--accent)' : '#4a5257' }} />
@@ -190,8 +198,8 @@ export function Bars({
           </span>
         ))}
         {reference && (
-          <span className="mono tiny dim">
-            <span style={{ display: 'inline-block', width: 16, borderTop: '1px dashed var(--line)', marginRight: 8, verticalAlign: 'middle' }} />
+          <span className="mono tiny muted">
+            <span style={{ display: 'inline-block', width: 16, borderTop: '1px dashed #8e979e', marginRight: 8, verticalAlign: 'middle' }} />
             {reference.label}
           </span>
         )}

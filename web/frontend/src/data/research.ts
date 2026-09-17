@@ -150,6 +150,7 @@ export const LIMITATIONS = [
 ]
 
 export const PAGES = [
+  { path: '/', label: '홈' },
   { path: '/reconstruction', label: '복원' },
   { path: '/results', label: '결과' },
   { path: '/robustness', label: '강건성' },

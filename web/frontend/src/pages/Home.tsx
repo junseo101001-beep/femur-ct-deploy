@@ -37,7 +37,7 @@ export default function Home() {
                     ]}
                   />
 
-                  <div className="row" style={{ marginTop: 34, gap: 8 }}>
+                  <div className="row" style={{ marginTop: 24, gap: 8 }}>
                     <Link className="tbtn wide" to="/reconstruction">복원 →</Link>
                   </div>
                 </div>
@@ -47,7 +47,7 @@ export default function Home() {
                     className="viewer-bare"
                     height="100%"
                     autoRotate
-                    background="#1f2a44"
+                    background={null}
                     layers={[{ url: `${DEMO_BASE}/${c0.meshes.recon_clean.file}`, color: BONE, opacity: 1, visible: true }]}
                   >
                     <div className="viewer-note-r">
@@ -74,7 +74,7 @@ export default function Home() {
                 ]}
               />
 
-              <div className="g2" style={{ marginTop: 64 }}>
+              <div className="g2" style={{ marginTop: 96, gap: 48 }}>
                 <div>
                   <Lab>Scope</Lab>
                   <p className="muted small" style={{ marginTop: 12 }}>

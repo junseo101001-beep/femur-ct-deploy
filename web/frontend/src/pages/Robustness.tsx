@@ -45,7 +45,7 @@ export default function Robustness() {
                 />
 
                 {nd && (
-                  <div style={{ marginTop: 46 }}>
+                  <div style={{ marginTop: 48 }}>
                     <div className="spread" style={{ marginBottom: 16 }}>
                       <Lab>Same noisy input (SNR {nd.snr}, σ {nd.sigma}) · {caseLabel(nd.case_pid, manifest.cases.findIndex((c) => c.pid === nd.case_pid))}</Lab>
                       <button className={`tbtn ${showGt ? 'on' : ''}`} onClick={() => setShowGt(!showGt)}>{t('GT overlay')}</button>
@@ -71,7 +71,7 @@ export default function Robustness() {
                         <div key={x.key}>
                           <FemurViewer
                             height={380}
-                            background="#1f2a44"
+                            background={null}
                             layers={[
                               { url: `${DEMO_BASE}/${nd.meshes[x.key].file}`, color: x.color, opacity: showGt ? 0.5 : 1, visible: true },
                               { url: `${DEMO_BASE}/${gtFile}`, color: GT_COLOR, opacity: 0.45, visible: showGt, smooth: false },

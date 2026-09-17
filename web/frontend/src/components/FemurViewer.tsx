@@ -1,6 +1,6 @@
 import { Suspense, useEffect, useMemo, useRef, type ReactNode } from 'react'
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { ContactShadows, OrbitControls, useProgress } from '@react-three/drei'
+import { ContactShadows, GizmoHelper, GizmoViewport, OrbitControls, useProgress } from '@react-three/drei'
 import { STLLoader, mergeVertices } from 'three-stdlib'
 import * as THREE from 'three'
 import { t } from './ui'
@@ -88,11 +88,11 @@ function CameraRig({ preset, resetToken }: { preset: Preset; resetToken: number 
 function Lights() {
   return (
     <>
-      <hemisphereLight args={['#cfd6da', '#0b0d0f', 0.5]} />
-      <directionalLight position={[2.6, 4.4, 4.2]} intensity={1.5} color="#fbf8f2" />
+      <hemisphereLight args={['#f4f1ea', '#4f4b44', 0.55]} />
+      <directionalLight position={[2.6, 4.4, 4.2]} intensity={2.0} color="#fffaf2" />
       <directionalLight position={[-4.2, 0.6, -1.6]} intensity={0.34} color="#9fb0ba" />
       <directionalLight position={[0.4, -3.4, -3.6]} intensity={0.3} color="#7f8a92" />
-      <ambientLight intensity={0.14} />
+      <ambientLight intensity={0.5} />
     </>
   )
 }
@@ -113,12 +113,13 @@ export interface ViewerProps {
   shadow?: boolean
   fov?: number
   className?: string
+  axes?: boolean                  // 카메라와 동기화된 축 표시
   children?: ReactNode            // overlay label
 }
 
 export function FemurViewer({
   layers, height = 460, autoRotate = true, background = null,
-  preset = 'free', resetToken = 0, shadow, fov = 32, className = 'viewer', children,
+  preset = 'free', resetToken = 0, shadow, fov = 32, className = 'viewer', axes = false, children,
 }: ViewerProps) {
   const visible = layers.filter((l) => l.visible)
   const useShadow = shadow ?? background === null   // 프레임 없는 hero 에서만 기본 on
@@ -152,6 +153,11 @@ export function FemurViewer({
           target={[0, 0, 0]}
         />
         <CameraRig preset={preset} resetToken={resetToken} />
+        {axes && (
+          <GizmoHelper alignment="bottom-left" margin={[70, 76]}>
+            <GizmoViewport axisColors={['#b96d78', '#167a63', '#5b7896']} labelColor="#ffffff" axisHeadScale={0.8} hideNegativeAxes />
+          </GizmoHelper>
+        )}
       </Canvas>
       {children}
       <Loading />

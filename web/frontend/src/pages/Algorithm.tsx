@@ -4,6 +4,7 @@ import { DEMO_BASE, MILESTONES, caseLabel, type CaseData, type Research } from '
 import { BONE, BONE_ALT, FemurViewer } from '../components/FemurViewer'
 import { useDrrSteps } from '../components/drrSteps'
 import { DL, fmt } from '../components/ui'
+import { ProcessTrace } from '../components/ProcessTrace'
 
 const drrUrl = (c: CaseData, k: string) => `${DEMO_BASE}/${c.drr[k].file}`
 const meshUrl = (c: CaseData, k: string) => `${DEMO_BASE}/${c.meshes[k].file}`
@@ -251,9 +252,11 @@ export default function Algorithm() {
                 </Panel>
               </div>
 
-              <section className="ap" style={{ marginTop: 20 }}>
+              <ProcessTrace c={c} caseLabel={caseLabel(c.pid, idx)} />
+
+              <section className="ap" style={{ marginTop: 14 }}>
                 <div className="ap-head">
-                  <span className="ap-num">04</span>
+                  <span className="ap-num">05</span>
                   <span className="ap-title">MODEL DEVELOPMENT</span>
                   <span className="ap-sub">개발 과정 · 핵심 milestone</span>
                 </div>

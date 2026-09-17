@@ -17,7 +17,7 @@ export default function Results() {
                 note="최종 모델을 한 번만 적용한 결과다. M1은 정상 입력에서 B0와 bit 단위로 동일하게 동작하므로 두 값이 같다."
               />
 
-              <div className="g2" style={{ gap: 56 }}>
+              <div className="g2" style={{ gap: 48 }}>
                 <div>
                   <Lab>Summary</Lab>
                   <div style={{ marginTop: 16 }}>
@@ -61,7 +61,7 @@ export default function Results() {
                   items={pids.map((p, i) => ({ label: caseLabel(p, i), improved: per_subject[p].improved, value: `${fmt(Math.abs(per_subject[p].delta), 3)} mm` }))}
                 />
 
-                <div className="tscroll" style={{ marginTop: 30 }}>
+                <div className="tscroll" style={{ marginTop: 24 }}>
                   <table className="t">
                     <thead>
                         <tr>
@@ -106,7 +106,7 @@ export default function Results() {
               </Sec>
 
               <Sec num="02" title="지표 정의">
-                <div className="g2" style={{ gap: 56 }}>
+                <div className="g2" style={{ gap: 48 }}>
                   <DL
                     rows={[
                       { k: t('Symmetric surface error'), v: '복원 ↔ 정답 표면 거리 중앙값' },
