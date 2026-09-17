@@ -16,6 +16,63 @@ const MODES: { k: Mode; label: string; ko: string; mesh: string; color: string; 
 ]
 
 const IDLE: RunState = { status: 'idle', stage: '', source: null, serverMs: null }
+const VIEWS = ['000', '045', '090'] as const
+
+/* ------------------------------------------------------------------ X-ray popup */
+
+function XrayModal({ c, idx, caseText, onNav, onClose }: { c: CaseData; idx: number; caseText: string; onNav: (i: number) => void; onClose: () => void }) {
+  const d = c.drr[VIEWS[idx]]
+  useEffect(() => {
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight') onNav((idx + 1) % VIEWS.length)
+      if (e.key === 'ArrowLeft') onNav((idx + VIEWS.length - 1) % VIEWS.length)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey) }
+  }, [idx, onNav, onClose])
+
+  return (
+    <div className="xm" role="dialog" aria-modal="true" aria-label={`DRR ${d.angle_deg}°`} onClick={onClose}>
+      <div className="xm-box" onClick={(e) => e.stopPropagation()}>
+        <div className="xm-head">
+          <div>
+            <div className="xm-lab">X-RAY INPUT · DRR</div>
+            <div className="xm-title"><span className="mono">{d.angle_deg}°</span> {caseText}</div>
+          </div>
+          <button className="xm-close" onClick={onClose} aria-label="닫기">
+            <svg width="12" height="12" viewBox="0 0 12 12" stroke="currentColor" strokeWidth="1.5"><path d="M2 2l8 8M10 2 2 10" /></svg>
+          </button>
+        </div>
+
+        <div className="xm-body">
+          <button className="xm-nav" onClick={() => onNav((idx + VIEWS.length - 1) % VIEWS.length)} aria-label="이전 view">‹</button>
+          <div className="xm-img"><img src={`${DEMO_BASE}/${d.file}`} alt={`DRR ${d.angle_deg}°`} /></div>
+          <button className="xm-nav" onClick={() => onNav((idx + 1) % VIEWS.length)} aria-label="다음 view">›</button>
+        </div>
+
+        <div className="xm-foot">
+          <div className="xm-thumbs">
+            {VIEWS.map((k, i) => (
+              <button key={k} className={i === idx ? 'on' : ''} onClick={() => onNav(i)}>
+                <img src={`${DEMO_BASE}/${c.drr[k].file}`} alt="" />
+                <span>{c.drr[k].angle_deg}°</span>
+              </button>
+            ))}
+          </div>
+          <dl className="xm-meta">
+            <div><dt>Detector</dt><dd>{d.shape[1]} × {d.shape[0]} px · 0.8 mm</dd></div>
+            <div><dt>Raw line integral</dt><dd>{d.raw_min.toFixed(3)} … {d.raw_max.toFixed(3)}</dd></div>
+            <div><dt>Source</dt><dd>CT-derived DRR <em>실제 촬영 X-ray 아님</em></dd></div>
+          </dl>
+        </div>
+        <div className="xm-hint">← → view 이동 · Esc 닫기</div>
+      </div>
+    </div>
+  )
+}
 
 /* ------------------------------------------------------------------ small parts */
 
@@ -84,6 +141,7 @@ export default function Reconstruction() {
   const [run, setRun] = useState<RunState>(IDLE)
   const [live, setLive] = useState<Partial<Record<Mode, string>>>({})
   const [health, setHealth] = useState<HealthInfo | null>(null)
+  const [xray, setXray] = useState<number | null>(null)          // 확대 중인 DRR view index
   const set = (p: Partial<ViewerState>) => setVs((s) => ({ ...s, ...p }))
 
   useEffect(() => {
@@ -234,9 +292,14 @@ export default function Reconstruction() {
                 </FemurViewer>
 
                 <div className="rc-xrays">
-                  {(['000', '045', '090'] as const).map((k) => (
+                  {VIEWS.map((k, vi) => (
                     <figure key={k}>
-                      <div className="rc-xray"><img src={`${DEMO_BASE}/${c.drr[k].file}`} alt={`DRR ${c.drr[k].angle_deg}°`} /></div>
+                      <button className="rc-xray" onClick={() => setXray(vi)} aria-label={`DRR ${c.drr[k].angle_deg}° 크게 보기`}>
+                        <img src={`${DEMO_BASE}/${c.drr[k].file}`} alt={`DRR ${c.drr[k].angle_deg}°`} />
+                        <span className="rc-xray-zoom" aria-hidden>
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4"><circle cx="5" cy="5" r="3.6" /><path d="M7.7 7.7 11 11M3.5 5h3M5 3.5v3" /></svg>
+                        </span>
+                      </button>
                       <figcaption><span>{c.drr[k].angle_deg}°</span><i /></figcaption>
                     </figure>
                   ))}
@@ -301,6 +364,9 @@ export default function Reconstruction() {
                   </div>
                 </div>
               </aside>
+              {xray !== null && (
+                <XrayModal c={c} idx={xray} caseText={caseLabel(c.pid, caseIdx)} onNav={setXray} onClose={() => setXray(null)} />
+              )}
             </div>
           )
         }}

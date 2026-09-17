@@ -764,3 +764,47 @@ table.t tfoot td { border-top: 1px solid var(--line); border-bottom: 0; }
 
 /* expanded slope pairs stack vertically so labels stay readable */
 .lim-body .lim-pair { grid-template-columns: 1fr; gap: 6px; }
+
+/* ================================================================== X-ray thumbnail → popup */
+button.rc-xray { position: relative; display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; }
+button.rc-xray:hover, button.rc-xray:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rc-xray-zoom { position: absolute; right: 4px; bottom: 4px; width: 20px; height: 20px; display: grid; place-items: center; background: rgba(255, 255, 255, 0.9); color: var(--text); border-radius: 2px; opacity: 0; transition: opacity .12s; }
+button.rc-xray:hover .rc-xray-zoom, button.rc-xray:focus-visible .rc-xray-zoom { opacity: 1; }
+
+.xm { position: fixed; inset: 0; z-index: 200; background: rgba(23, 34, 53, 0.42); display: flex; align-items: center; justify-content: center; padding: 24px; animation: xm-in .14s ease-out; }
+@keyframes xm-in { from { opacity: 0; } to { opacity: 1; } }
+.xm-box { width: min(760px, 100%); max-height: calc(100vh - 48px); display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; box-shadow: 0 24px 60px -30px rgba(23, 34, 53, 0.55); overflow: hidden; }
+.xm-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 16px 20px 12px; border-bottom: 1px solid var(--line-soft); }
+.xm-lab { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: 0.16em; color: var(--muted); }
+.xm-title { font-family: var(--font-kr); font-size: 16px; color: var(--text); margin-top: 4px; }
+.xm-title .mono { color: var(--accent); margin-right: 8px; }
+.xm-close { width: 32px; height: 32px; display: grid; place-items: center; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; cursor: pointer; color: var(--text); }
+.xm-close:hover { border-color: #aeb8bf; }
+
+.xm-body { flex: 1; min-height: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 8px; padding: 16px 12px; background: var(--panel-2); }
+.xm-img { height: min(62vh, 640px); display: flex; justify-content: center; }
+.xm-img img { height: 100%; width: auto; max-width: 100%; object-fit: contain; background: var(--xray); display: block; }
+.xm-nav { height: 64px; background: var(--panel); border: 1px solid var(--line); border-radius: 3px; font-size: 22px; color: var(--muted); cursor: pointer; }
+.xm-nav:hover { color: var(--text); border-color: #aeb8bf; }
+
+.xm-foot { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 14px 20px; border-top: 1px solid var(--line-soft); flex-wrap: wrap; }
+.xm-thumbs { display: flex; gap: 8px; }
+.xm-thumbs button { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 3px; background: none; border: 1px solid transparent; border-radius: 3px; cursor: pointer; font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.xm-thumbs button img { width: 42px; height: 56px; object-fit: cover; background: var(--xray); display: block; }
+.xm-thumbs button.on { border-color: var(--accent); color: var(--accent); }
+.xm-meta { margin: 0; display: grid; gap: 4px; }
+.xm-meta div { display: flex; justify-content: space-between; gap: 18px; font-size: 12px; }
+.xm-meta dt { color: var(--muted); }
+.xm-meta dd { margin: 0; font-family: var(--font-mono); color: var(--text); text-align: right; }
+.xm-meta dd em { font-style: normal; font-family: var(--font-kr); color: var(--warn); margin-left: 6px; }
+.xm-hint { font-size: 11px; color: var(--dim); text-align: center; padding: 0 0 10px; }
+
+@media (max-width: 700px) {
+  .xm { padding: 10px; }
+  .xm-body { grid-template-columns: 1fr; padding: 10px; }
+  .xm-nav { display: none; }
+  .xm-img { height: 56vh; }
+  .xm-foot { flex-direction: column; align-items: stretch; }
+  .xm-thumbs { justify-content: center; }
+  .xm-hint { display: none; }
+}
